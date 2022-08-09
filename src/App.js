@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import { ModuleHandler} from './ModuleHandler';
+import './Styles/App.css';
+import React from 'react';
+import feedBG from './assets/feedbg.jpg'
 
-function App() {
+export function App() {
+
+  // const handleClick = () => {
+  //   const options = {method: 'GET'};
+  //   fetch('https://api.opensea.io/api/v1/collection/doodles-official', options)
+  //     .then(response => response.json())
+  //     .then(response => {
+  //       let collection = response.collection;
+  //       let obj = {};
+  //       console.log(collection)
+
+  //       for (const key in collection) {
+  //         // if (typeof collection[key] === 'string' || typeof collection[key] === 'number' ) {
+  //           let value = collection[key].toString();
+  //           obj[key] = value;
+  //         // }
+  //       }
+        
+  //       setVals(obj)
+  //     })
+  //     .catch(err => console.error(err));
+  // }
+    
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="feed" style={{
+      backgroundImage: `url(${feedBG})`,
+      backgroundSize: "cover"
+    }}>
+      <ModuleHandler  />
     </div>
   );
 }
 
-export default App;

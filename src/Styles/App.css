@@ -1,0 +1,17 @@
+.feed {
+  width: 66.7%;
+  height: fit-content;
+  display: flex;
+  border: 5px solid rgba(0, 0, 0, 1);
+  padding: 20px 5px 5px;
+  padding-bottom: 15px;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  box-shadow: 0px 8px 32px 8px rgba(0,0,0,0.35);
+  border-radius: 15px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  align-items: center;
+}
+
