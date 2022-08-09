@@ -12,6 +12,7 @@ import { SupplyModule, SalesModule, VolumeModule, HoldersModule, HolderRatioModu
 export function Module (props) {
     //info variables
     let defaultTrigger = props.default;
+    const [slug, setSlug] = useState(props.slug)
     const [name, setName] = useState();
     const [collectionImage, setImage] = useState();
     //stats
@@ -24,6 +25,7 @@ export function Module (props) {
     const [royaltyFee, setFee] = useState();
     //hover usestates
     const [defaultMod, setDefault] = useState(defaultTrigger)
+    let url = `https://api.opensea.io/api/v1/collection/${slug}`
     console.log(defaultTrigger)
     console.log(props)
 
@@ -32,13 +34,12 @@ export function Module (props) {
 
 
     useEffect(() => {
+        
         const options = {method: 'GET'};
         if (defaultMod !== undefined) {
-            console.log("2")
-        } else {
-            console.log("1")
+            setSlug("proof-moonbirds")
         }
-        fetch('https://api.opensea.io/api/v1/collection/proof-moonbirds', options)
+        fetch(url, options)
         .then(response => response.json())
         .then(response => {
             let stats = response.collection.stats;
@@ -84,66 +85,6 @@ export function Module (props) {
             <HolderRatioModule holderRatio={holderRatio} />
             <FeeModule royaltyFee={royaltyFee} />
             <FloorPriceModule floorPrice={floorPrice} />
-            {/* <div className="stats">
-                <div className="stats-left">
-                    <PlayButtonEl />
-                    <span className="stats-info">Sales: </span>
-                </div>
-                <div className="stats-right">
-                    <img alt="" className="bmo" width="120px" height="45px" src={bmo}/>
-                    <span className="stats-val">{sales}</span>
-                </div>
-            </div>
-            <div className="stats">
-                <div className="stats-left">
-                    <BigPlayButtonEl />
-                    <span id="bigVal" className="stats-info">Total Volume: </span>
-                </div>
-                <div className="stats-right">
-                    <img alt="" className="bmo" width="120px" height="45px" src={bmo}/>
-                    <span className="stats-val">{volume}</span>
-                </div>
-            </div>
-            <div className="stats">
-                <div className="stats-left">
-                    <BigPlayButtonEl />
-                    <span id="bigVal" className="stats-info"># of Holders: </span>
-                </div>
-                <div className="stats-right">
-                    <img alt="" className="bmo" width="120px" height="45px" src={bmo}/>
-                    <span  className="stats-val">{holders}</span>
-                </div>
-            </div>
-            <div className="stats">
-                <div className="stats-left">
-                    <BigPlayButtonEl />
-                    <span id="bigVal"className="stats-info">Holder Ratio: </span>
-                </div>
-                <div className="stats-right">
-                    <img alt="" className="bmo" width="120px" height="45px" src={bmo}/>
-                    <span className="stats-val">{holderRatio}</span>
-                </div> 
-            </div>
-            <div className="stats">
-                <div className="stats-left">
-                    <BigPlayButtonEl />
-                    <span id="bigVal" className="stats-info">Royalty Fee: </span>
-                </div>
-                <div className="stats-right">
-                    <img alt="" className="bmo" width="120px" height="45px" src={bmo}/>
-                    <span className="stats-val">{royaltyFee}</span>
-                </div>
-            </div>
-            <div className="stats">
-                <div className="stats-left">
-                    <BigPlayButtonEl />
-                    <span className="stats-info">Floor Price:</span>
-                </div>
-                <div id="floorpricediv"className="stats-right">
-                    <img alt="" className="bmo" width="120px" height="45px" src={bmo}/>
-                    <span id="floorprice" className="stats-val">{floorPrice}<Icon icon="fa-brands:ethereum" className="eth" width="10" height="20" /></span>
-                </div>
-            </div> */}
             <div className="controls">
 
             </div>
@@ -160,7 +101,7 @@ export function ModuleHandler (props) {
         <>
         <div className="row">
             <div className="module"><Module default="true" /></div>
-            <div className="module"></div>
+            <div className="module"><Module slug="thelittlesnft" /></div>
             <div className="module"></div>
         </div>
         <div className="row">
