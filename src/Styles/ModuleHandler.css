@@ -508,3 +508,26 @@
   opacity: 0.05;
   transition: opacity 0.3s ease-out;
 }
+
+.deleteButtonDiv {
+  position: absolute;
+  left: 27.5px;
+  top: 30px;
+  filter:drop-shadow(1px 1px 5px rgb(0, 0, 0)) 
+           drop-shadow(-1px -1px 0 rgba(228, 228, 228, .3));
+}
+
+.deleteButtonDiv img {
+  filter: grayscale(80%);
+  -webkit-transition: all 0.2s linear;
+        -moz-transition: all 0.2s linear;
+            -o-transition: all 0.2s linear;
+         -ms-transition: all 0.2s linear;
+                transition: all 0.2s linear;
+}
+
+.deleteButtonDiv:hover > img {
+  filter: grayscale(0%);
+  transform: rotate(-10deg);
+  
+}

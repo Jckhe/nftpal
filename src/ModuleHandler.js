@@ -3,7 +3,9 @@ import './Styles/ModuleHandler.css'
 import scrollbg from './assets/vector.png'
 import sword from './assets/finnsword.png'
 import dsword from './assets/dsword.png'
+import sword2 from './assets/sword2.png'
 import bmo from './assets/bmo.png'
+import delButton from './assets/deletebutton.jpg'
 import loadingScreen from './assets/cool.gif'
 import osicon from './assets/opensea.svg'
 import esicon from './assets/etherscan.svg'
@@ -11,6 +13,164 @@ import nerdicon from './assets/nftnerd.svg'
 import playButton from './assets/button.png'
 import { SupplyModule, SalesModule, VolumeModule, HoldersModule, HolderRatioModule, FeeModule, FloorPriceModule } from './Stats';
 
+
+
+//this component handles the modules and their orientation within the feed.
+//Essentially this component is the main parent of all the modules.
+export function ModuleHandler (props) {
+
+    return (
+        <>
+        <div className="row">
+            <Module default={true} />
+            <Module />
+            <Module />
+        </div>
+        <div className="row">
+            <Module />
+            <Module />
+            <Module />
+        </div>
+        </>
+    )
+}
+
+
+
+//this component handles the loading screen animation in between the search module and the initialized module.
+function LoadingScreenComp (props) {
+    const [animationClass, setClass] = useState("loadingScreen1")
+    const [loading, setLoading] = useState(true);
+    let defaultModule = props.default;
+    let slug = props.slug;
+    let delHandler = props.func;
+
+    if (defaultModule === true) {
+        slug = "proof-moonbirds"
+    }
+
+    
+
+    useEffect(() => {
+        setTimeout(() => {
+            setClass("loadingScreen2")
+            setTimeout(() => {
+                setClass("loadingScreen3")
+                setTimeout(() => {
+                    setClass("loadingScreen2")
+                    setTimeout(() => {
+                        setClass("loadingScreen3")
+                        setTimeout(() => {
+                            setLoading(false)
+                        }, 100);
+                    }, 200);
+                }, 200);
+            }, 300);
+        }, 50);
+    }, [])
+
+    if (loading === true) {
+        return (
+            <div className="module">
+                <div className="loadingScreenDiv">
+                    <img src={loadingScreen} alt="loading screen"  className={animationClass} />
+                </div>
+            </div>
+        )
+    } else {
+        return (
+            <>
+            <ModuleInit func={delHandler} slug={slug} />
+            </>
+        )
+    }
+}
+
+//this Module handles the process between the search and the intialization (passing the slug over)
+function Module (props) {
+    const [init, setInit] = useState(false);
+    const [slug, setSlug] = useState('');
+    const [defaultModule, setDefault] = useState(props.default)
+    
+
+
+
+    const initHandler = (e) => {
+        setSlug(e);
+        setInit(true)
+    }
+
+    const delHandler = (e) => {
+        setSlug('')
+        setDefault()
+        setInit(false)
+    }
+
+    useEffect(() => {
+        if (defaultModule === true) {
+            setInit(true)
+        }
+    }, [])
+
+    if (init === false) {
+        return (
+            <>
+            <ModuleSearch func={initHandler} />
+            </>
+        )
+    } else {
+        return (
+            <>
+            <LoadingScreenComp default={defaultModule} func={delHandler} slug={slug} />
+            </>
+        )
+    }
+}
+
+
+
+//This is the search component of the module. Basically this is the pre-initialized state.
+function ModuleSearch (props) {
+    const [slugInput, slugInputter] = useState('')
+
+
+
+    const handleChange = (e) => {
+        slugInputter(e.target.value)
+    }
+
+
+    return (
+        <div className="module">
+        <div className="mainModuleSearchDiv">
+            <div className="swordDiv"><img alt="sword" className="swordImg" height="50px" width="200px" src={sword} /></div>
+            <div className="searchDiv">
+                <div className="searchInputContainer">
+                    <div className="scrollcontainer2">
+                        <img alt="" className="scroll2" src={scrollbg}/>
+                    </div>
+                    <input onChange={handleChange} className="search" type="text" placeholder="ENTER SLUG"/>
+                </div>
+                <div className="searchSubmitContainer">
+                    <div className="submitPlayButtonDiv">
+                        <img alt="submit" src={playButton} className="submitPlayButton" />
+                        <span>SUBMIT</span>
+                    </div>
+                    <div className="searchButtonDiv">
+                        <input onClick={() => {props.func(slugInput)}} className="searchSubmit" type="submit" value=" " />
+                    </div>
+                    
+                    </div>
+            </div>
+            <div className="swordDiv"><img alt="dsword" className="swordFlipped" height="50px" width="200px" src={sword} /></div>
+        </div>
+        </div>
+    )
+}
+
+
+
+//This is the intialized component of the module.
 export function ModuleInit (props) {
     //info variables
     const [slug, setSlug] = useState(props.slug)
@@ -30,6 +190,8 @@ export function ModuleInit (props) {
     const [etherscan, setES] = useState();
 
     let url = `https://api.opensea.io/api/v1/collection/${slug}`
+
+    let delHandler = props.func;
 
 
     const fetchCollection = (collectionUrl) => {
@@ -72,7 +234,10 @@ export function ModuleInit (props) {
     return (
         <div className="module">
         <div className="info">
-        <img className="moduleImg" alt="" height="120px" width="120px" src={collectionImage}/>
+            <div className="deleteButtonDiv">
+                <img alt="delete button" onClick={() => {delHandler()}} src={delButton} height="40px" width="40px" />
+            </div>
+            <img className="moduleImg" alt="" height="120px" width="120px" src={collectionImage}/>
             <div className="nameContainer">
                 <div className="scrollcontainer">
                     <img alt="" className="scroll" src={scrollbg}/>
@@ -99,125 +264,3 @@ export function ModuleInit (props) {
         </div>
     )
 }
-
-function LoadingScreenComp (props) {
-    const [animationClass, setClass] = useState("loadingScreen1")
-    const [loading, setLoading] = useState(true);
-
-    let slug = props.slug;
-
-    useEffect(() => {
-        setTimeout(() => {
-            setClass("loadingScreen2")
-            setTimeout(() => {
-                setClass("loadingScreen3")
-                setTimeout(() => {
-                    setClass("loadingScreen2")
-                    setTimeout(() => {
-                        setClass("loadingScreen3")
-                        setTimeout(() => {
-                            setLoading(false)
-                        }, 100);
-                    }, 200);
-                }, 200);
-            }, 300);
-        }, 50);
-    }, [])
-
-    if (loading === true) {
-        return (
-            <div className="module">
-                <div className="loadingScreenDiv">
-                    <img src={loadingScreen} alt="loading screen"  className={animationClass} />
-                </div>
-            </div>
-        )
-    } else {
-        return (
-            <>
-            <ModuleInit slug={slug} />
-            </>
-        )
-    }
-}
-
-function Module (props) {
-    const [init, setInit] = useState(false);
-    const [slug, setSlug] = useState('');
-
-    const initHandler = (e) => {
-        setSlug(e);
-        setInit(true)
-    }
-
-    if (init === false) {
-        return (
-            <>
-            <ModuleSearch func={initHandler} />
-            </>
-        )
-    } else {
-        return (
-            <>
-            <LoadingScreenComp slug={slug} />
-            </>
-        )
-    }
-}
-
-function ModuleSearch (props) {
-    const [slugInput, slugInputter] = useState('')
-
-    const handleChange = (e) => {
-        slugInputter(e.target.value)
-    }
-
-
-    return (
-        <div className="module">
-        <div className="mainModuleSearchDiv">
-            <div className="swordDiv"><img alt="sword" className="swordImg" height="50px" width="200px" src={sword} /></div>
-            <div className="searchDiv">
-                <div className="searchInputContainer">
-                    <div className="scrollcontainer2">
-                        <img alt="" className="scroll2" src={scrollbg}/>
-                    </div>
-                    <input onChange={handleChange} className="search" type="text" placeholder="ENTER SLUG"/>
-                </div>
-                <div className="searchSubmitContainer">
-                    <div className="submitPlayButtonDiv">
-                        <img alt="submit" src={playButton} className="submitPlayButton" />
-                        <span>SUBMIT</span>
-                    </div>
-                    <div className="searchButtonDiv">
-                        <input onClick={() => {props.func(slugInput)}} className="searchSubmit" type="submit" value=" " />
-                    </div>
-                    
-                    </div>
-            </div>
-            <div className="swordDiv"><img alt="dsword" className="swordImg" height="50px" width="200px" src={dsword} /></div>
-        </div>
-        </div>
-    )
-}
-
-
-
-export function ModuleHandler (props) {
-
-    return (
-        <>
-        <div className="row">
-            <ModuleInit default={true} slug="proof-moonbirds" />
-            <Module />
-            <Module />
-        </div>
-        <div className="row">
-            <Module />
-            <Module />
-            <Module />
-        </div>
-        </>
-    )
-}
-
