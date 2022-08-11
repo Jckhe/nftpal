@@ -2,16 +2,17 @@ import React, {useEffect, useState} from 'react';
 import './Styles/ModuleHandler.css'
 import scrollbg from './assets/vector.png'
 import sword from './assets/finnsword.png'
-import wood from './assets/wooden.png'
+import dsword from './assets/dsword.png'
 import bmo from './assets/bmo.png'
+import loadingScreen from './assets/cool.gif'
+import osicon from './assets/opensea.svg'
+import esicon from './assets/etherscan.svg'
+import nerdicon from './assets/nftnerd.svg'
 import playButton from './assets/button.png'
-import eth from './assets/ethereum.svg'
 import { SupplyModule, SalesModule, VolumeModule, HoldersModule, HolderRatioModule, FeeModule, FloorPriceModule } from './Stats';
 
-
-export function Module (props) {
+export function ModuleInit (props) {
     //info variables
-    let defaultTrigger = props.default;
     const [slug, setSlug] = useState(props.slug)
     const [name, setName] = useState();
     const [collectionImage, setImage] = useState();
@@ -23,26 +24,22 @@ export function Module (props) {
     const [holders, setHolders] = useState();
     const [holderRatio, setRatio] = useState();
     const [royaltyFee, setFee] = useState();
-    //hover usestates
-    const [defaultMod, setDefault] = useState(defaultTrigger)
+    //links/control variables
+    const [opensea, setOS] = useState();
+    const [nftnerd, setNerd] = useState();
+    const [etherscan, setES] = useState();
+
     let url = `https://api.opensea.io/api/v1/collection/${slug}`
-    console.log(defaultTrigger)
-    console.log(props)
-
-    
 
 
-
-    useEffect(() => {
-        
+    const fetchCollection = (collectionUrl) => {
         const options = {method: 'GET'};
-        if (defaultMod !== undefined) {
-            setSlug("proof-moonbirds")
-        }
-        fetch(url, options)
+        fetch(collectionUrl, options)
         .then(response => response.json())
         .then(response => {
             let stats = response.collection.stats;
+            let contract = response.collection.primary_asset_contracts[0].address;
+
             const fee = () => {
                 const jsonFee = response.collection.primary_asset_contracts[0].seller_fee_basis_points / 100
                 const percentageFee = jsonFee.toString() + "%"
@@ -57,15 +54,23 @@ export function Module (props) {
             setHolders(stats.num_owners)
             setRatio((stats.total_supply/stats.num_owners).toFixed(2))
             setFee(fee())
+            setOS(`https://opensea.io/collection/${slug}`)
+            setNerd(`https://nftnerds.ai/collection/${contract}/liveview`)
+            setES(`https://etherscan.io/address/${contract}`)
 
-            
+
+            .catch(err => console.error(err));
         })
-        .catch(err => console.error(err));
+        
+    }
+    
+    useEffect(() => {
+        fetchCollection(url)
     }, [])
 
 
     return (
-        <>
+        <div className="module">
         <div className="info">
         <img className="moduleImg" alt="" height="120px" width="120px" src={collectionImage}/>
             <div className="nameContainer">
@@ -86,10 +91,113 @@ export function Module (props) {
             <FeeModule royaltyFee={royaltyFee} />
             <FloorPriceModule floorPrice={floorPrice} />
             <div className="controls">
-
+                <div className="osdiv"><a target="_blank" alt="OpenSea" href={opensea}><img src={osicon} height="25px" width="25px" /></a></div>
+                <div className="esdiv"><a target="_blank"  alt="Etherscan" href={etherscan}><img src={esicon} height="25px" width="25px" /></a></div>
+                <div className="nerddiv"><a target="_blank" alt="NFTNerds" href={nftnerd}><img src={nerdicon} height="23px" width="23px" /></a></div>
             </div>
         </div>
-        </>
+        </div>
+    )
+}
+
+function LoadingScreenComp (props) {
+    const [animationClass, setClass] = useState("loadingScreen1")
+    const [loading, setLoading] = useState(true);
+
+    let slug = props.slug;
+
+    useEffect(() => {
+        setTimeout(() => {
+            setClass("loadingScreen2")
+            setTimeout(() => {
+                setClass("loadingScreen3")
+                setTimeout(() => {
+                    setClass("loadingScreen2")
+                    setTimeout(() => {
+                        setClass("loadingScreen3")
+                        setTimeout(() => {
+                            setLoading(false)
+                        }, 100);
+                    }, 200);
+                }, 200);
+            }, 300);
+        }, 50);
+    }, [])
+
+    if (loading === true) {
+        return (
+            <div className="module">
+                <div className="loadingScreenDiv">
+                    <img src={loadingScreen} alt="loading screen"  className={animationClass} />
+                </div>
+            </div>
+        )
+    } else {
+        return (
+            <>
+            <ModuleInit slug={slug} />
+            </>
+        )
+    }
+}
+
+function Module (props) {
+    const [init, setInit] = useState(false);
+    const [slug, setSlug] = useState('');
+
+    const initHandler = (e) => {
+        setSlug(e);
+        setInit(true)
+    }
+
+    if (init === false) {
+        return (
+            <>
+            <ModuleSearch func={initHandler} />
+            </>
+        )
+    } else {
+        return (
+            <>
+            <LoadingScreenComp slug={slug} />
+            </>
+        )
+    }
+}
+
+function ModuleSearch (props) {
+    const [slugInput, slugInputter] = useState('')
+
+    const handleChange = (e) => {
+        slugInputter(e.target.value)
+    }
+
+
+    return (
+        <div className="module">
+        <div className="mainModuleSearchDiv">
+            <div className="swordDiv"><img alt="sword" className="swordImg" height="50px" width="200px" src={sword} /></div>
+            <div className="searchDiv">
+                <div className="searchInputContainer">
+                    <div className="scrollcontainer2">
+                        <img alt="" className="scroll2" src={scrollbg}/>
+                    </div>
+                    <input onChange={handleChange} className="search" type="text" placeholder="ENTER SLUG"/>
+                </div>
+                <div className="searchSubmitContainer">
+                    <div className="submitPlayButtonDiv">
+                        <img alt="submit" src={playButton} className="submitPlayButton" />
+                        <span>SUBMIT</span>
+                    </div>
+                    <div className="searchButtonDiv">
+                        <input onClick={() => {props.func(slugInput)}} className="searchSubmit" type="submit" value=" " />
+                    </div>
+                    
+                    </div>
+            </div>
+            <div className="swordDiv"><img alt="dsword" className="swordImg" height="50px" width="200px" src={dsword} /></div>
+        </div>
+        </div>
     )
 }
 
@@ -100,14 +208,14 @@ export function ModuleHandler (props) {
     return (
         <>
         <div className="row">
-            <div className="module"><Module default="true" /></div>
-            <div className="module"><Module slug="thelittlesnft" /></div>
-            <div className="module"></div>
+            <ModuleInit default={true} slug="proof-moonbirds" />
+            <Module />
+            <Module />
         </div>
         <div className="row">
-            <div className="module"></div>
-            <div className="module"></div>
-            <div className="module"></div>
+            <Module />
+            <Module />
+            <Module />
         </div>
         </>
     )

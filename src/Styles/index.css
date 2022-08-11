@@ -8,6 +8,15 @@
 }
 
 @font-face {
+  font-family: 'watermelondays';
+  src: url('../assets/watermelon_days-webfont.woff2') format('woff2'),
+       url('../assets/watermelon_days-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
   font-family: 'Retro Computer';
   src: url('../assets/RetroComputer.woff2') format('woff2'),
       url('../assets/RetroComputer.woff') format('woff');
@@ -21,6 +30,15 @@
   font-family: 'candy_beansregular';
   src: url('../assets/candy_beans-webfont.woff2') format('woff2'),
        url('../assets/candy_beans-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'atime';
+  src: url('../assets/adventure_time_logo-webfont.woff2') format('woff2'),
+       url('../assets/adventure_time_logo-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 
