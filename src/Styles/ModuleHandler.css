@@ -7,6 +7,68 @@
   }
 
 
+  @media only screen and (max-width: 1280px)  {
+    .module {
+      width: 500px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    .scroll {
+      max-width: 310px;
+      height: 90px;
+    }
+
+  
+      .bigPlayButtonTrue {
+        left: -48.5px;
+        transition: height .2s linear;
+        transition: width .1s linear;
+      }
+    
+      .bigPlayButtonFalse {
+        left: -48.5px;
+        transition: height .05s linear;
+        transition: width .05s linear;
+      }
+    
+    
+
+      .stats-info {
+        white-space: nowrap;
+      }
+
+      .bigstat {
+        position: absolute;
+        left: 6px;
+        transition: left .05s linear;
+      }
+
+      .stats-left:hover > .bigstat {
+        left: 6.3px;
+        position: absolute;
+        transition: left .05s linear;
+      }
+
+
+      .stats-right {
+        max-width: 70%;
+      }
+
+      .stats-left {
+        min-width: 20%;
+        max-width: 30%;
+      }
+    
+      .stats {
+        gap: 0px;
+        max-width: 80%;
+        margin: 0;
+        justify-content: center;
+        padding: 0;
+      }
+    }
+
+
   
 .module {
     border: 4px solid rgb(0, 0, 0);
@@ -208,7 +270,6 @@
     width: 90%;
     height: 20%;
     gap: 100px;
-    justify-content: space-evenly;
     margin-left: 3px;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -278,7 +339,22 @@
 
   .nameContainer:hover .cname {
     font-size: 2.7rem;
-    -webkit-text-stroke-color: rgba(0, 0, 0, 0.8);
+    -webkit-text-stroke-color: rgba(255, 255, 255, 0.7);
+    transition: font-size .2s ease-in;
+    transition: -webkit-text-stroke-color .1s linear;
+  }
+
+
+  .nameContainer:hover .cname1 {
+    font-size: 2.2rem;
+    -webkit-text-stroke-color: rgba(255, 255, 255, 0.7);
+    transition: font-size .2s ease-in;
+    transition: -webkit-text-stroke-color .1s linear;
+  }
+
+  .nameContainer:hover .cname2 {
+    font-size: 1.85rem;
+    -webkit-text-stroke-color: rgba(255, 255, 255, 0.7);
     transition: font-size .2s ease-in;
     transition: -webkit-text-stroke-color .1s linear;
   }
@@ -291,11 +367,36 @@
     font-family:'watermelondays';
     padding: 15px 0 0;
     font-size: 2.6rem;
-    color: rgb(121,189,154);
+    color: rgb(0, 0, 0);
     letter-spacing: 1.6px;
-    -webkit-text-stroke-width: 0.3px;
-    -webkit-text-stroke-color: rgba(0, 0, 0, 0.5);
+    -webkit-text-stroke-width: 0.1px;
+    -webkit-text-stroke-color: rgba(255, 255, 255, .7);
   }
+
+.cname1 {
+  white-space: nowrap;
+  text-align: center;
+  font-family:'watermelondays';
+  padding: 15px 0 0;
+  font-size: 2rem;
+  color: rgb(0, 0, 0);
+  letter-spacing: 1.6px;
+  -webkit-text-stroke-width: 0.1px;
+  -webkit-text-stroke-color: rgba(255, 255, 255, .7);
+}
+
+
+.cname2 {
+  white-space: nowrap;
+  text-align: center;
+  font-family:'watermelondays';
+  padding: 15px 0 0;
+  font-size: 1.7rem;
+  color: rgb(0, 0, 0);
+  letter-spacing: 1.6px;
+  -webkit-text-stroke-width: 0.1px;
+  -webkit-text-stroke-color: rgba(255, 255, 255, .7);
+}
 
 .name {
   z-index: 100;
@@ -368,7 +469,7 @@
     margin-bottom: 5px;
     padding: 5px 3px 5px;
     border-radius: 5px;
-    border: 1px dotted rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(0, 0, 0, 0.5);
     background-color: rgba(205,215,182, 1);
  }
 
@@ -404,14 +505,14 @@
 
  .stats-val {
   z-index: 100;
-  font-weight: bolder;
-  font-size: 1rem;
+
+  font-size: 1.3rem;
   font-family: 'candy_beansregular';
   letter-spacing: 2px;
   -webkit-text-stroke: 1px;
-  color: green;
+  color: rgba(0, 0, 0, 0.67);
   transition: font-size 0.1s linear;
-  -webkit-text-fill-color: rgb(7, 255, 255);
+  -webkit-text-fill-color: rgb(219, 132, 212);
  }
 
  .bigPlayButtonTrue {
@@ -468,7 +569,7 @@
   border: 2px solid rgba(0, 0, 0, .3);
   border-radius: 2px;
   position: absolute;
-  top: -3px;
+  top: -6px;
   filter:drop-shadow(1px 2px 3px rgba(216, 211, 211,.3)) 
            drop-shadow(-1px -1px 0 rgba(228, 228, 228, .3));
  }
@@ -478,7 +579,7 @@
 }
 
 .stats:hover .stats-val {
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   transition: font-size 0.1s linear;
 }
 
@@ -531,3 +632,4 @@
   transform: rotate(-10deg);
   
 }
+

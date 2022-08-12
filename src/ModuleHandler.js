@@ -24,7 +24,7 @@ export function ModuleHandler (props) {
         <div className="row">
             <Module default={true} />
             <Module />
-            <Module />
+            <Module default2={true}/>
         </div>
         <div className="row">
             <Module />
@@ -42,11 +42,16 @@ function LoadingScreenComp (props) {
     const [animationClass, setClass] = useState("loadingScreen1")
     const [loading, setLoading] = useState(true);
     let defaultModule = props.default;
+    let defaultModule2 = props.default2
     let slug = props.slug;
     let delHandler = props.func;
 
     if (defaultModule === true) {
         slug = "proof-moonbirds"
+    }
+
+    if (defaultModule2 === true) {
+        slug = "boredapeyachtclub"
     }
 
     
@@ -91,7 +96,7 @@ function Module (props) {
     const [init, setInit] = useState(false);
     const [slug, setSlug] = useState('');
     const [defaultModule, setDefault] = useState(props.default)
-    
+    const [defaultModule2, setDefault2] = useState(props.default2)
 
 
 
@@ -107,7 +112,7 @@ function Module (props) {
     }
 
     useEffect(() => {
-        if (defaultModule === true) {
+        if (defaultModule === true || defaultModule2 === true) {
             setInit(true)
         }
     }, [])
@@ -121,7 +126,7 @@ function Module (props) {
     } else {
         return (
             <>
-            <LoadingScreenComp default={defaultModule} func={delHandler} slug={slug} />
+            <LoadingScreenComp default2={defaultModule2} default={defaultModule} func={delHandler} slug={slug} />
             </>
         )
     }
@@ -188,10 +193,14 @@ export function ModuleInit (props) {
     const [opensea, setOS] = useState();
     const [nftnerd, setNerd] = useState();
     const [etherscan, setES] = useState();
+    //style
+    const [cnamelength, setcname] = useState('cname')
 
     let url = `https://api.opensea.io/api/v1/collection/${slug}`
 
     let delHandler = props.func;
+
+    
 
 
     const fetchCollection = (collectionUrl) => {
@@ -201,13 +210,17 @@ export function ModuleInit (props) {
         .then(response => {
             let stats = response.collection.stats;
             let contract = response.collection.primary_asset_contracts[0].address;
+            let floorPrice = stats.floor_price;
+            let collectionName = response.collection.primary_asset_contracts[0].name;
+            console.log(collectionName.length)
 
             const fee = () => {
                 const jsonFee = response.collection.primary_asset_contracts[0].seller_fee_basis_points / 100
                 const percentageFee = jsonFee.toString() + "%"
                 return percentageFee; 
             }
-            setFloorPrice(stats.floor_price)
+            
+            setFloorPrice(Number.parseFloat(floorPrice).toFixed(2))
             setName(response.collection.primary_asset_contracts[0].name)
             setImage(response.collection.image_url)
             setSales(stats.total_sales)
@@ -219,9 +232,12 @@ export function ModuleInit (props) {
             setOS(`https://opensea.io/collection/${slug}`)
             setNerd(`https://nftnerds.ai/collection/${contract}/liveview`)
             setES(`https://etherscan.io/address/${contract}`)
-
-
-            .catch(err => console.error(err));
+            if (collectionName.length > 18) {
+                setcname('cname2')
+            } else if (collectionName.length > 12) {
+                setcname('cname1')
+            }
+            
         })
         
     }
@@ -243,7 +259,7 @@ export function ModuleInit (props) {
                     <img alt="" className="scroll" src={scrollbg}/>
                 </div>
                 <div className="name">
-                    <h1 className="cname">{name}</h1>
+                    <h1 className={cnamelength}>{name}</h1>
                 </div>
             </div> 
         </div>
