@@ -13,6 +13,7 @@
       margin-left: 10px;
       margin-right: 10px;
     }
+
     .scroll {
       max-width: 310px;
       height: 90px;
@@ -73,8 +74,8 @@
 .module {
     border: 4px solid rgb(0, 0, 0);
     width: 400px;
-    background-color: #A8DBA8;
     height: 810px;
+    background-color: #A8DBA8;
     border-radius: 20px;
     caret-color: transparent!important;
     display: flex;
@@ -83,8 +84,9 @@
     flex-direction: column;
     overflow:hidden;
     cursor: pointer;
-    box-shadow: inset 0 4px 7px 1px #d8d8d8, inset 0 -5px 20px rgba(173, 186, 204, 0.25), 0 2px 6px rgba(0, 21, 64, 0.14), 0 10px 20px rgba(0, 21, 64, 0.05);
+    box-shadow: inset 0 2px 5px 1px #807e7e, inset 0 -5px 20px rgba(173, 186, 204, 0.25), 0 2px 6px rgba(0, 21, 64, 0.14), 0 10px 20px rgba(0, 21, 64, 0.05);
   }
+
 
   .mainModuleSearchDiv {
     display: flex;
@@ -96,26 +98,22 @@
   }
 
   .module:hover .swordImg  {
-    filter:drop-shadow(1px 5px 25px rgb(255, 208, 0)) 
-    drop-shadow(-1px -1px 0 rgb(121,189,154));
+    filter:drop-shadow(1px 5px 25px rgb(255, 208, 0));
     transition: filter 0.1s linear;
   }
 
   .module:hover .swordFlipped {
-    filter:drop-shadow(1px 5px 25px rgb(255, 208, 0)) 
-    drop-shadow(-1px -1px 0 rgb(121,189,154));
+    filter:drop-shadow(1px 5px 25px rgb(255, 208, 0));
     transition: filter 0.1s linear;
   }
 
   .scrollcontainer2:hover .scroll2 {
-    filter:drop-shadow(1px 5px 20px rgb(255, 208, 0)) 
-           drop-shadow(-1px -1px 0 rgb(121,189,154));
+    filter:drop-shadow(1px 5px 20px rgb(255, 208, 0));
     transition: filter 0.1s linear;
   }
 
   .searchInputContainer:hover .scroll2 {
-    filter:drop-shadow(1px 5px 20px rgb(255, 208, 0)) 
-           drop-shadow(-1px -1px 0 rgb(121,189,154));
+    filter:drop-shadow(1px 5px 20px rgb(255, 208, 0));
     transition: filter 0.1s linear;
   }
 
@@ -218,6 +216,7 @@
   .info {
     display: flex;
     position: relative;
+    
     flex-direction: column;
     align-items: center;
     align-content: flex-start;
@@ -238,7 +237,7 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-    box-shadow: inset 0 4px 7px 1px rgba(255, 255, 255, .25);
+    box-shadow: inset 0 2px 5px 1px #807e7e, inset 0 -5px 20px rgba(173, 186, 204, 0.25), 0 2px 6px rgba(0, 21, 64, 0.14), 0 10px 20px rgba(0, 21, 64, 0.05);
    }
 
   .moduleImg > img {
@@ -248,13 +247,13 @@
   .moduleImg {
     border: 1px solid black;
     height: 120px;
+    user-select: none!important;
     width: 120px;
     padding: 5px;
     margin-top: 15px;
     margin-bottom: 15px;
     background-color: grey;
-    filter:drop-shadow(1px 5px 12px rgb(0, 0, 0)) 
-           drop-shadow(-1px -1px 0 rgb(121,189,154));
+    filter:drop-shadow(1px 5px 12px rgb(0, 0, 0));
   }
 
   .moduleImg:hover {
@@ -291,13 +290,14 @@
   }
 
   .scrollcontainer {
+    user-select: none;
     position: absolute;
   }
 
   .scroll {
-    filter:drop-shadow(1px 5px 10px black) 
-           drop-shadow(-1px -1px 0 rgb(121,189,154));
+    filter:drop-shadow(1px 5px 10px black) ;
     width: 375px;
+    user-select: none;
     height: 110px;
     transition: filter 0.2s ease-out;
   }
@@ -311,8 +311,7 @@
   .scroll2 {
     width: 300px;
     height: 100px;
-    filter:drop-shadow(1px 5px 10px black) 
-           drop-shadow(-1px -1px 0 rgb(121,189,154));
+    filter:drop-shadow(1px 5px 10px black);
   }
 
   .submitPlayButtonDiv {
@@ -327,14 +326,12 @@
   .submitPlayButton {
     width: 300px;
     height: 100px;
-    filter:drop-shadow(1px 2px 1px black) 
-           drop-shadow(-1px -1px 0 rgb(121,189,154));
+    filter:drop-shadow(1px 2px 1px black) ;
   }
 
   .nameContainer:hover .scroll {
-    filter:drop-shadow(1px 5px 20px rgb(255, 208, 0)) 
-           drop-shadow(-1px -1px 0 rgb(121,189,154));
-    transition: filter 0.1s linear;
+    filter:drop-shadow(1px 5px 20px rgb(255, 208, 0));
+        transition: filter 0.1s linear;
   }
 
   .nameContainer:hover .cname {
@@ -365,6 +362,7 @@
     white-space: nowrap;
     text-align: center;
     font-family:'watermelondays';
+    user-select: text;
     padding: 15px 0 0;
     font-size: 2.6rem;
     color: rgb(0, 0, 0);
@@ -398,6 +396,7 @@
   -webkit-text-stroke-color: rgba(255, 255, 255, .7);
 }
 
+
 .name {
   z-index: 100;
   width: 50%;
@@ -422,8 +421,7 @@
 }
 
  .swordImg {
-  filter:drop-shadow(1px 5px 10px black) 
-            drop-shadow(-1px -1px 0 rgb(121,189,154));
+  filter:drop-shadow(1px 5px 10px black);
   transition: filter 0.1s linear;
   
  }
@@ -431,8 +429,7 @@
  .swordFlipped {
   transform: scaleX(-1);
   transition: filter 0.1s linear;
-  filter:drop-shadow(1px 5px 10px black) 
-           drop-shadow(-1px -1px 0 rgb(121,189,154));
+  filter:drop-shadow(1px 5px 10px black);
  }
 
 
@@ -523,8 +520,7 @@
   transition: height .2s linear;
   transition: width .1s linear;
   cursor:pointer;
-  filter:drop-shadow(1px 2px 1px black) 
-           drop-shadow(-1px -1px 0 rgb(121,189,154));
+  filter:drop-shadow(1px 2px 1px black);
  }
 
  .bigPlayButtonFalse {
@@ -535,8 +531,7 @@
   position: absolute;
   transition: height .05s linear;
   transition: width .05s linear;
-  filter:drop-shadow(1px 2px 1px black) 
-           drop-shadow(-1px -1px 0 rgb(121,189,154));
+  filter:drop-shadow(1px 2px 1px black);
  }
 
  .playButtonHoverFalse {
@@ -546,8 +541,7 @@
   padding-top: 2px;
   position: absolute;
   transition: heigh width 2s;
-  filter:drop-shadow(1px 2px 1px black) 
-           drop-shadow(-1px -1px 0 rgb(121,189,154));
+  filter:drop-shadow(1px 2px 1px black);
            
  }
 
@@ -559,8 +553,7 @@
   position: absolute;
   transition: height .2s linear;
   transition: width .1s linear;
-  filter:drop-shadow(1px 2px 1px black) 
-           drop-shadow(-1px -1px 0 rgb(121,189,154));
+  filter:drop-shadow(1px 2px 1px black);
            
  }
 
@@ -611,6 +604,7 @@
 }
 
 .deleteButtonDiv {
+  user-select: none!important;
   position: absolute;
   left: 27.5px;
   top: 30px;

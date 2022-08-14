@@ -1,23 +1,62 @@
-import { ModuleHandler} from './ModuleHandler';
+import { ModuleHandler } from './ModuleHandler';
 import './Styles/App.css';
-import React, { useEffect } from 'react';
-import feedBG from './assets/feedbg.jpg'
+import React, { useEffect, useState } from 'react';
+import feedBG from './assets/feedbg4.jpg'
+import nightBG from './assets/nightmode.jpg'
 import Favico from './assets/favicon.png'
 import Favicon from "react-favicon";
+import { NightModeToggle } from './Menu';
+
 
 export  function App() {
-    
+
+  const [nightMode, setNightMode] = useState(false)
+  
+
+  const nightModeFunc = (e) => {
+    setNightMode(!nightMode)
+  }
+
+  const nightModeHandler = () => {
+    if (nightMode === false) {
+      return {
+        backgroundColor: "#cdd7b6"
+      }
+    } else {
+      return {
+        backgroundColor: "#383B32"
+      }
+    }
+  }
+
+  const nightModeBG = () => {
+    if (nightMode === true) {
+      return {
+        backgroundImage: `url(${nightBG})`
+      }
+    } else {
+      return {
+        backgroundImage: `url(${feedBG})`
+      }
+    }
+  }
+
+
   useEffect(() => {
     document.title = 'NFTPal'
   })
 
   return (
-    <div className="feed" style={{
-      backgroundImage: `url(${feedBG})`,
-      backgroundSize: "cover"
-    }}>
+    <div className="body" style={nightModeHandler()}>
+      <div className="switch">
+      <NightModeToggle func={nightModeFunc} />
+      </div>
+      
+    
+    <div className="feed" style={nightModeBG()}>
       <Favicon url={Favico}></Favicon>
-      <ModuleHandler  />
+      <ModuleHandler nightMode={nightMode}  />
+    </div>
     </div>
   );
 }

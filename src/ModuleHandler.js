@@ -2,9 +2,6 @@ import React, {useEffect, useState} from 'react';
 import './Styles/ModuleHandler.css'
 import scrollbg from './assets/vector.png'
 import sword from './assets/finnsword.png'
-import dsword from './assets/dsword.png'
-import sword2 from './assets/sword2.png'
-import bmo from './assets/bmo.png'
 import delButton from './assets/deletebutton.jpg'
 import loadingScreen from './assets/cool.gif'
 import osicon from './assets/opensea.svg'
@@ -18,78 +15,25 @@ import { SupplyModule, SalesModule, VolumeModule, HoldersModule, HolderRatioModu
 //this component handles the modules and their orientation within the feed.
 //Essentially this component is the main parent of all the modules.
 export function ModuleHandler (props) {
+    let nightMode = props.nightMode;
+
 
     return (
         <>
         <div className="row">
-            <Module default={true} />
-            <Module />
-            <Module default2={true}/>
+            <Module nightMode={nightMode} default={true} />
+            <Module nightMode={nightMode} />
+            <Module nightMode={nightMode} default2={true}/>
         </div>
         <div className="row">
-            <Module />
-            <Module />
-            <Module />
+            <Module nightMode={nightMode} />
+            <Module nightMode={nightMode} />
+            <Module nightMode={nightMode} />
         </div>
         </>
     )
 }
 
-
-
-//this component handles the loading screen animation in between the search module and the initialized module.
-function LoadingScreenComp (props) {
-    const [animationClass, setClass] = useState("loadingScreen1")
-    const [loading, setLoading] = useState(true);
-    let defaultModule = props.default;
-    let defaultModule2 = props.default2
-    let slug = props.slug;
-    let delHandler = props.func;
-
-    if (defaultModule === true) {
-        slug = "proof-moonbirds"
-    }
-
-    if (defaultModule2 === true) {
-        slug = "boredapeyachtclub"
-    }
-
-    
-
-    useEffect(() => {
-        setTimeout(() => {
-            setClass("loadingScreen2")
-            setTimeout(() => {
-                setClass("loadingScreen3")
-                setTimeout(() => {
-                    setClass("loadingScreen2")
-                    setTimeout(() => {
-                        setClass("loadingScreen3")
-                        setTimeout(() => {
-                            setLoading(false)
-                        }, 100);
-                    }, 200);
-                }, 200);
-            }, 300);
-        }, 50);
-    }, [])
-
-    if (loading === true) {
-        return (
-            <div className="module">
-                <div className="loadingScreenDiv">
-                    <img src={loadingScreen} alt="loading screen"  className={animationClass} />
-                </div>
-            </div>
-        )
-    } else {
-        return (
-            <>
-            <ModuleInit func={delHandler} slug={slug} />
-            </>
-        )
-    }
-}
 
 //this Module handles the process between the search and the intialization (passing the slug over)
 function Module (props) {
@@ -97,7 +41,7 @@ function Module (props) {
     const [slug, setSlug] = useState('');
     const [defaultModule, setDefault] = useState(props.default)
     const [defaultModule2, setDefault2] = useState(props.default2)
-
+    let nightMode = props.nightMode;
 
 
     const initHandler = (e) => {
@@ -120,13 +64,13 @@ function Module (props) {
     if (init === false) {
         return (
             <>
-            <ModuleSearch func={initHandler} />
+            <ModuleSearch nightMode={nightMode} func={initHandler} />
             </>
         )
     } else {
         return (
             <>
-            <LoadingScreenComp default2={defaultModule2} default={defaultModule} func={delHandler} slug={slug} />
+            <LoadingScreenComp nightMode={nightMode} default2={defaultModule2} default={defaultModule} func={delHandler} slug={slug} />
             </>
         )
     }
@@ -134,19 +78,105 @@ function Module (props) {
 
 
 
+//this component handles the loading screen animation in between the search module and the initialized module.
+function LoadingScreenComp (props) {
+    const [animationClass, setClass] = useState("loadingScreen1")
+    const [loading, setLoading] = useState(true);
+    let defaultModule = props.default;
+    let defaultModule2 = props.default2
+    let slug = props.slug;
+    let delHandler = props.func;
+    let nightMode = props.nightMode;
+
+
+    if (defaultModule === true) {
+        slug = "proof-moonbirds"
+    }
+
+    if (defaultModule2 === true) {
+        slug = "boredapeyachtclub"
+    }
+
+
+    //nightMode style handler
+    const nightModeHandler = () => {
+        if (nightMode === true) {
+            return {
+                backgroundColor: '#6B8074'
+            }
+        } else {
+            return {
+                backgroundColor: '#A8DBA8'
+            }
+        }
+    }
+    
+
+    useEffect(() => {
+        setTimeout(() => {
+            setClass("loadingScreen2")
+            setTimeout(() => {
+                setClass("loadingScreen3")
+                setTimeout(() => {
+                    setClass("loadingScreen2")
+                    setTimeout(() => {
+                        setClass("loadingScreen3")
+                        setTimeout(() => {
+                            setLoading(false)
+                        }, 100);
+                    }, 200);
+                }, 200);
+            }, 300);
+        }, 50);
+    }, [])
+
+    if (loading === true) {
+        return (
+            <div className='module' style={nightModeHandler()}>
+                <div className="loadingScreenDiv">
+                    <img src={loadingScreen} alt="loading screen"  className={animationClass} />
+                </div>
+            </div>
+        )
+    } else {
+        return (
+            <>
+            <ModuleInit nightMode={nightMode} func={delHandler} slug={slug} />
+            </>
+        )
+    }
+}
+
+
+
+
+
 //This is the search component of the module. Basically this is the pre-initialized state.
 function ModuleSearch (props) {
     const [slugInput, slugInputter] = useState('')
-
-
+    const [nightModeStyle, setNightMode] = useState('module1')
+    let nightMode = props.nightMode;
 
     const handleChange = (e) => {
         slugInputter(e.target.value)
     }
 
+    //nightMode style handler
+    const nightModeHandler = () => {
+        if (nightMode === true) {
+            return {
+                backgroundColor: '#6B8074'
+            }
+        } else {
+            return {
+                backgroundColor: '#A8DBA8'
+            }
+        }
+    }
+
 
     return (
-        <div className="module">
+        <div className='module' style={nightModeHandler()}>
         <div className="mainModuleSearchDiv">
             <div className="swordDiv"><img alt="sword" className="swordImg" height="50px" width="200px" src={sword} /></div>
             <div className="searchDiv">
@@ -195,12 +225,24 @@ export function ModuleInit (props) {
     const [etherscan, setES] = useState();
     //style
     const [cnamelength, setcname] = useState('cname')
+    
 
+    //props and etc
+    let nightMode = props.nightMode;
     let url = `https://api.opensea.io/api/v1/collection/${slug}`
-
     let delHandler = props.func;
 
-    
+    const nightModeHandler = () => {
+        if (nightMode === true) {
+            return {
+                backgroundColor: '#6B8074'
+            }
+        } else {
+            return {
+                backgroundColor: '#A8DBA8'
+            }
+        }
+    }
 
 
     const fetchCollection = (collectionUrl) => {
@@ -248,7 +290,7 @@ export function ModuleInit (props) {
 
 
     return (
-        <div className="module">
+        <div className="module" style={nightModeHandler()}>
         <div className="info">
             <div className="deleteButtonDiv">
                 <img alt="delete button" onClick={() => {delHandler()}} src={delButton} height="40px" width="40px" />
