@@ -708,7 +708,7 @@ img.delButton2 {
 }
 
 .lightBulbDiv {
-  position: absolute;
+  position: relative;
   z-index: 5555;
 }
 
@@ -730,7 +730,7 @@ img.delButton2 {
 
 div.slugHelperDiv {
   position: relative;
-  bottom: 20%;
+  bottom: 12%;
   background-color: wheat;
   max-width: 300px;
   right: 0%;

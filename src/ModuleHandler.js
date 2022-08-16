@@ -234,7 +234,8 @@ function ModuleSearch (props) {
         if (slugHelpStatus === true) {
             return {
                 bottom: "55px",
-                opacity: '0'
+                opacity: '0',
+                position: 'absolute'
             }
         }
     }
