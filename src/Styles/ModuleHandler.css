@@ -82,7 +82,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    overflow:hidden;
+    overflow:visible;
     cursor: pointer;
     box-shadow: inset 0 2px 5px 1px #807e7e, inset 0 -5px 20px rgba(173, 186, 204, 0.25), 0 2px 6px rgba(0, 21, 64, 0.14), 0 10px 20px rgba(0, 21, 64, 0.05);
   }
@@ -192,20 +192,18 @@
 
   .searchSubmitContainer span {
     position: absolute;
-    bottom: 32.5px;
+    bottom: 35%;
     -webkit-text-stroke: 0.5px;
     font-size: 1.3rem;
     padding-bottom: 2.5px;
-    font-family: 'candy_beansregular';
+    font-family: 'watermelondays';
     color: #0B486B;
     -webkit-text-stroke-color: rgb(213,195,149);
   }
 
 
   .searchSubmitContainer:hover span {
-    color: rgb(255, 208, 0);
-    -webkit-text-stroke: 2px;
-    -webkit-text-stroke-color: rgb(0, 0, 0);
+    text-decoration: underline;
   }
 
   .searchSubmitContainer:hover img {
@@ -421,6 +419,7 @@
 }
 
  .swordImg {
+  user-select: none;
   filter:drop-shadow(1px 5px 10px black);
   transition: filter 0.1s linear;
   
@@ -603,6 +602,29 @@
   transition: opacity 0.3s ease-out;
 }
 
+.refreshButtonDiv {
+  user-select: none!important;
+  position: absolute;
+  right: 10%;
+  top: 9%;
+  filter:drop-shadow(1px 1px 2px rgb(0, 0, 0)) 
+           drop-shadow(-1px -1px 0 rgba(228, 228, 228, .3));
+}
+
+.refreshButtonDiv img {
+  filter: grayscale(80%);
+  -webkit-transition: all 0.5s linear;
+        -moz-transition: all 0.5s linear;
+            -o-transition: all 0.5s linear;
+         -ms-transition: all 0.5s linear;
+                transition: all 0.5s linear;
+}
+
+.refreshButtonDiv:hover > img {
+  filter: grayscale(0%);
+  transform: rotate(-170deg);
+}
+
 .deleteButtonDiv {
   user-select: none!important;
   position: absolute;
@@ -627,3 +649,154 @@
   
 }
 
+.questionMarkDiv {
+  position: absolute;
+  right: 5%;
+  top: 5%;
+}
+
+.questionMarkDiv img {
+  filter: grayscale(80%);
+}
+
+.questionMarkDiv:hover img {
+  filter: grayscale(0%);
+}
+
+.refreshHelpDiv {
+  position: absolute;
+  z-index: 8000;
+  height: 100px;
+  width: 300px;
+  background-color: rgba(255, 255, 255, .7);
+  border: 3px solid black;
+  border-radius: 10px;
+  font-family: 'watermelondays';
+  
+  text-align: center;
+  left: 50px;
+  line-height: 20px;
+  padding: 20px;
+}
+
+.refreshHelpContent {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  font-size: 1.2rem;
+  text-shadow:
+        0.07em 0 #a2c505,
+        0 0.07em #a2c505,
+        -0.07em 0 #a2c505,
+        0 -0.07em #a2c505;
+  color: black;
+}
+
+img.delButton2 {
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  filter: grayscale(100%);
+  padding: 2px;
+  border: 2px solid black;
+  border-radius: 16px;
+  background-color: wheat;
+}
+
+.delButton2:hover {
+  filter: grayscale(0);
+}
+
+.lightBulbDiv {
+  position: absolute;
+  z-index: 5555;
+}
+
+.lightBulbDiv img {
+  position: relative;
+  bottom: 125px;
+  opacity: 30%;
+  filter:drop-shadow(1px 5px 10px black) ;
+  transition: all 0.15s ease-out;
+  
+}
+
+.lightBulbDiv img:hover {
+  filter:drop-shadow(1px 5px 25px rgb(255, 208, 0)) ;
+  transition: all 0.1s ease-in;
+  transform: rotate(10deg);
+  opacity: 80%;
+}
+
+div.slugHelperDiv {
+  position: relative;
+  bottom: 20%;
+  background-color: wheat;
+  max-width: 300px;
+  right: 0%;
+  padding: 20px 15px 0;
+  border: 2px solid black;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 7777;
+  opacity: 0;
+  filter:drop-shadow(1px 5px 10px black) ;
+  transition: all 0.5s ease-out;
+}
+
+.slugHelperDiv:hover {
+  filter:drop-shadow(1px 5px 15px rgb(85, 77, 1));
+  
+}
+
+.slugHelperDiv p:hover {
+  filter:drop-shadow(1px 5px 12px rgb(0, 0, 0)) ;
+  font-size: 1.05rem;
+  transition: all 0.1s linear;
+}
+
+
+.slugHelperContent {
+  padding-top: 25px;
+  margin-top: 10px;
+}
+
+img.exampleSlug {
+  filter:drop-shadow(1px 5px 10px black) ;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
+.slugHelperContent strong {
+  font-weight: 550;
+  text-decoration: underline;
+}
+
+.slugHelperContent p {
+  text-align: center;
+  text-shadow:
+        0.07em 0 #a2c505,
+        0 0.07em #a2c505,
+        -0.07em 0 #a2c505,
+        0 -0.07em #a2c505;
+  line-height: 22px;
+  filter:drop-shadow(1px 5px 8px rgb(0, 0, 0)) ;
+  font-family: 'watermelondays';
+}
+
+img.delButton3  {
+  border: none;
+  filter: grayscale(50%);
+  z-index: 5555;
+  top: 5%;
+  right: 45%;
+  position: absolute;
+}
+
+img.delButton3:hover {
+  filter: grayscale(0%);
+  filter:drop-shadow(1px 5px 10px black) ;
+}

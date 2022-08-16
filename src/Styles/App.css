@@ -19,6 +19,17 @@
   z-index: 2;
 }
 
+.nbuttonContainer {
+  display: flex;
+  position: relative;
+  top: 14%;
+  left: -1%;
+  padding-left: 0;
+  margin-left: 0;
+  
+  
+}
+
 @media only screen and (min-width: 1280px) {
   .feed {
     width: 80%;

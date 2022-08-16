@@ -6,7 +6,7 @@ import useState from 'react-usestateref'
 
 export const NightModeToggle = (props) => {
 
-    const [nightModeStatus, toggleNightMode, nightModeRef] = useState(false);
+    const [nightModeStatus, toggleNightMode, nightModeRef] = useState(true);
     let propsFunc = props.func;
 
 
@@ -25,7 +25,7 @@ export const NightModeToggle = (props) => {
 
 
     return (
-        <div className="nbuttonContainer">
+        <>
           <div className="buttonLabelDiv" style={{
             backgroundImage: `url(${playButton})`,
             backgroundSize: 'cover'
@@ -34,6 +34,20 @@ export const NightModeToggle = (props) => {
             
             <span id="NightModeLabel">Night mode: <strong>{nightModeChecker()}</strong></span>
             </div>
-        </div>
+        </>
+    )
+}
+
+export const ManualRefreshButton = (props) => {
+    return (
+        <>
+        <div className="buttonLabelDiv2" style={{
+            backgroundImage: `url(${playButton})`,
+            backgroundSize: 'cover'
+          }}
+          >
+            <span id="ManualRefreshLabel">Refresh</span>
+          </div>
+        </>
     )
 }

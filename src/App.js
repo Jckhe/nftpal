@@ -5,12 +5,12 @@ import feedBG from './assets/feedbg4.jpg'
 import nightBG from './assets/nightmode.jpg'
 import Favico from './assets/favicon.png'
 import Favicon from "react-favicon";
-import { NightModeToggle } from './Menu';
+import { ManualRefreshButton, NightModeToggle } from './Menu';
 
 
 export  function App() {
 
-  const [nightMode, setNightMode] = useState(false)
+  const [nightMode, setNightMode] = useState(true)
   
 
   const nightModeFunc = (e) => {
@@ -49,7 +49,10 @@ export  function App() {
   return (
     <div className="body" style={nightModeHandler()}>
       <div className="switch">
-      <NightModeToggle func={nightModeFunc} />
+        <div className="nbuttonContainer">
+          <NightModeToggle func={nightModeFunc} />
+          <ManualRefreshButton />
+        </div>
       </div>
       
     

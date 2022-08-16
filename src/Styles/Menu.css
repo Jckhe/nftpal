@@ -1,17 +1,4 @@
 
-
-
-.nbuttonContainer {
-  display: flex;
-  position: relative;
-  top: 14%;
-  left: -1%;
-  padding-left: 0;
-  margin-left: 0;
-  
-  
-}
-
 .buttonLabelDiv span {
   z-index: 7;
   user-select: none;
@@ -38,6 +25,30 @@
   filter:drop-shadow(1px 2px 5px black);
 }
 
+.buttonLabelDiv2 {
+  position: absolute;
+  cursor: pointer;
+  height: 120px;
+  width: 200px;
+  overflow: visible;
+  padding: 0;
+  top: -30px;
+  left: 12%;
+  filter:drop-shadow(1px 2px 5px black);
+}
+
+.buttonLabelDiv2 span {
+  z-index: 7;
+  user-select: none;
+  position: relative;
+  left: 37%;
+  text-decoration: line-through;
+  top: 38%;
+  letter-spacing: 1px;
+  font-size: 1.7em;
+  font-family: 'watermelondays'
+}
+
 .buttonLabelDiv:hover span {
   -webkit-text-fill-color: rgb(0, 0, 0); /* Will override color (regardless of order) */
   -webkit-text-stroke-width: 0.5px;
@@ -45,5 +56,15 @@
 }
 
 .buttonLabelDiv:active {
+  filter:drop-shadow(1px 2px 5px rgb(150, 148, 148));
+}
+
+.buttonLabelDiv2:hover span {
+  -webkit-text-fill-color: rgb(0, 0, 0); /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 0.5px;
+  -webkit-text-stroke-color: rgba(255, 248, 248, .5);
+}
+
+.buttonLabelDiv2:active {
   filter:drop-shadow(1px 2px 5px rgb(150, 148, 148));
 }

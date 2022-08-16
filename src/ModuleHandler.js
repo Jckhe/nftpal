@@ -2,7 +2,14 @@ import React, {useEffect, useState} from 'react';
 import './Styles/ModuleHandler.css'
 import scrollbg from './assets/vector.png'
 import sword from './assets/finnsword.png'
+import sword2 from './assets/finnsword2.png'
 import delButton from './assets/deletebutton.jpg'
+import delButton2 from './assets/close.png'
+import lightBulb from './assets/light-bulb.png'
+import lightBulb2 from './assets/lightbulb2.png'
+import exampleSlug from './assets/example.png'
+import refButton from './assets/refresh.png'
+import questionMark from './assets/question-mark.png'
 import loadingScreen from './assets/cool.gif'
 import osicon from './assets/opensea.svg'
 import esicon from './assets/etherscan.svg'
@@ -26,8 +33,8 @@ export function ModuleHandler (props) {
             <Module nightMode={nightMode} default2={true}/>
         </div>
         <div className="row">
-            <Module nightMode={nightMode} />
-            <Module nightMode={nightMode} />
+            <Module nightMode={nightMode}  />
+            <Module nightMode={nightMode} default3={true} />
             <Module nightMode={nightMode} />
         </div>
         </>
@@ -40,7 +47,10 @@ function Module (props) {
     const [init, setInit] = useState(false);
     const [slug, setSlug] = useState('');
     const [defaultModule, setDefault] = useState(props.default)
-    const [defaultModule2, setDefault2] = useState(props.default2)
+    let defaultModule2 = props.default2;
+    let defaultModule3 = props.default3;
+    
+    
     let nightMode = props.nightMode;
 
 
@@ -56,7 +66,7 @@ function Module (props) {
     }
 
     useEffect(() => {
-        if (defaultModule === true || defaultModule2 === true) {
+        if (defaultModule === true || defaultModule2 === true || defaultModule3 === true) {
             setInit(true)
         }
     }, [])
@@ -70,7 +80,7 @@ function Module (props) {
     } else {
         return (
             <>
-            <LoadingScreenComp nightMode={nightMode} default2={defaultModule2} default={defaultModule} func={delHandler} slug={slug} />
+            <LoadingScreenComp nightMode={nightMode} default3={defaultModule3} default2={defaultModule2} default={defaultModule} func={delHandler} slug={slug} />
             </>
         )
     }
@@ -83,7 +93,8 @@ function LoadingScreenComp (props) {
     const [animationClass, setClass] = useState("loadingScreen1")
     const [loading, setLoading] = useState(true);
     let defaultModule = props.default;
-    let defaultModule2 = props.default2
+    let defaultModule2 = props.default2;
+    let defaultModule3 = props.default3;
     let slug = props.slug;
     let delHandler = props.func;
     let nightMode = props.nightMode;
@@ -96,6 +107,11 @@ function LoadingScreenComp (props) {
     if (defaultModule2 === true) {
         slug = "boredapeyachtclub"
     }
+
+    if (defaultModule3 === true) {
+        slug = "azuki"
+    }
+
 
 
     //nightMode style handler
@@ -153,8 +169,12 @@ function LoadingScreenComp (props) {
 
 //This is the search component of the module. Basically this is the pre-initialized state.
 function ModuleSearch (props) {
-    const [slugInput, slugInputter] = useState('')
-    const [nightModeStyle, setNightMode] = useState('module1')
+    const [slugInput, slugInputter] = useState('');
+    const [swordAnimation, setSwordAnimation] = useState(0);
+    const [swordAnimation2, setSwordAnimation2] = useState(0);
+    const [slugHelpStatus, toggleHelp] = useState(false);
+
+
     let nightMode = props.nightMode;
 
     const handleChange = (e) => {
@@ -175,11 +195,73 @@ function ModuleSearch (props) {
     }
 
 
+
+    const slugHelperClick = () => {
+        toggleHelp(true)
+    }
+
+    const delslugHelperClicker = () => {
+        toggleHelp(false)
+    }
+
+    const slugHelper = () => {
+        if (slugHelpStatus === true) {
+            return (
+                <div style={HelperDivStyling()} className='slugHelperDiv'>
+                    <div className="slugHelperContent">
+                        <img className="exampleSlug" height="50px" width="300px" src={exampleSlug} alt="" />
+                        <p><strong>What is a slug?</strong></p>
+                        <p>The slug of an NFT project can be found at the end of their opensea collection's URL. </p>
+                        <p>{"For example, in the image above the slug for Moonbirds is"} <strong>'proof-moonbirds'</strong> {"(with the dash)"}</p>
+                        <img onClick={()=> {delslugHelperClicker()}} src={delButton2} className="delButton3" alt="" height="18px" width="18px" />
+                    </div>
+                </div>
+            )
+        }
+    }
+
+    //style functions
+    const rotateonClick = () => {
+        let rotation = swordAnimation + 90;
+        setSwordAnimation(rotation)
+    }
+    const rotateonClick2 = () => {
+        let rotation = swordAnimation2 + 90;
+        setSwordAnimation2(rotation)
+    }
+
+    const lightBulbStyleHandling = () => {
+        if (slugHelpStatus === true) {
+            return {
+                bottom: "55px",
+                opacity: '0'
+            }
+        }
+    }
+
+    const HelperDivStyling = () => {
+        if (slugHelpStatus === true) {
+            return {
+                opacity: '0.8',
+                transition: 'opacity 1s linear'
+            }
+        }
+    }
+
+
     return (
         <div className='module' style={nightModeHandler()}>
         <div className="mainModuleSearchDiv">
-            <div className="swordDiv"><img alt="sword" className="swordImg" height="50px" width="200px" src={sword} /></div>
+            <div className="swordDiv" onClick={rotateonClick}><img style={{
+                transform: `rotate(${swordAnimation}deg)`,
+                transition: 'transform 0.1s linear'
+            }} alt="sword" className="swordImg" height="50px" width="200px" src={sword} /></div>
+            
             <div className="searchDiv">
+                {slugHelper()}
+            <div className="lightBulbDiv">
+                <img style={lightBulbStyleHandling()} onClick={()=> {slugHelperClick()}}src={lightBulb2} alt="" height="50px" width="50px" />
+            </div>
                 <div className="searchInputContainer">
                     <div className="scrollcontainer2">
                         <img alt="" className="scroll2" src={scrollbg}/>
@@ -197,7 +279,10 @@ function ModuleSearch (props) {
                     
                     </div>
             </div>
-            <div className="swordDiv"><img alt="dsword" className="swordFlipped" height="50px" width="200px" src={sword} /></div>
+            <div className="swordDiv" onClick={rotateonClick2}><img style={{
+                transform: `rotate(${swordAnimation2}deg)`,
+                transition: 'transform 0.1s linear'
+            }} alt="dsword" className="swordImg" height="50px" width="200px" src={sword2} /></div>
         </div>
         </div>
     )
@@ -223,8 +308,10 @@ export function ModuleInit (props) {
     const [opensea, setOS] = useState();
     const [nftnerd, setNerd] = useState();
     const [etherscan, setES] = useState();
+    const [refreshHelp, toggleRefHelp] = useState(false);
     //style
-    const [cnamelength, setcname] = useState('cname')
+    const [cnamelength, setcname] = useState('cname');
+    const [refreshHelpDiv, toggleHelpDiv] = useState('slugHelperDivClose');
     
 
     //props and etc
@@ -241,6 +328,29 @@ export function ModuleInit (props) {
             return {
                 backgroundColor: '#A8DBA8'
             }
+        }
+    }
+
+    const refHandler = () => {
+        fetchCollection(url)
+    }
+
+    const refHelpClick = () => {
+        toggleRefHelp(true)
+    }
+
+    const delRefHelp = () => {
+        toggleRefHelp(false)
+    }
+
+    const refreshDiv = () => {
+        if (refreshHelp === true) {
+            return (
+                <div className="refreshHelpDiv">
+                    <img onClick={() => {delRefHelp()}} id="rhelpdelbutton" className="delButton2" src={delButton2} height="18px" width="18px" alt="delete button 2" />
+                    <p className="refreshHelpContent">If nothing changes after refreshing, it usually just means that there's nothing to update or refresh regarding the stats of the collection. Try again later when you think thing's might've changed!</p>
+                </div>
+            )
         }
     }
 
@@ -295,6 +405,13 @@ export function ModuleInit (props) {
             <div className="deleteButtonDiv">
                 <img alt="delete button" onClick={() => {delHandler()}} src={delButton} height="40px" width="40px" />
             </div>
+            <div className="refreshButtonDiv">
+                <img alt="refresh button" onClick={() => {refHandler()}} src={refButton} height="40px" width="40px" />
+            </div>
+            <div className="questionMarkDiv">
+                <img onClick={()=> {refHelpClick()}}alt="questionMark" src={questionMark} className="question-mark" height="16px" width="16px" />
+            </div>
+            {refreshDiv()}
             <img className="moduleImg" alt="" height="120px" width="120px" src={collectionImage}/>
             <div className="nameContainer">
                 <div className="scrollcontainer">
