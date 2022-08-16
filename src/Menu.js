@@ -39,14 +39,37 @@ export const NightModeToggle = (props) => {
 }
 
 export const ManualRefreshButton = (props) => {
+    const [refreshStatus, toggleRefreshAnimation] = useState('Refresh All')
+
+    const refreshAnimation = () => {
+        setTimeout(() => {
+            toggleRefreshAnimation('Refreshing')
+            setTimeout(() => {
+                toggleRefreshAnimation('Refreshing.')
+                setTimeout(() => {
+                    toggleRefreshAnimation('Refreshing..')
+                    setTimeout(() => {
+                        toggleRefreshAnimation('Refreshing...')
+                        setTimeout(() => {
+                            toggleRefreshAnimation('Refresh All')
+                        }, 350);
+                    }, 400);
+                }, 400);
+            }, 400);
+        }, 5);
+    }
+
     return (
         <>
-        <div className="buttonLabelDiv2" style={{
+        <div onClick={() => {
+            refreshAnimation();
+            props.refresh();
+        }} className="buttonLabelDiv2" style={{
             backgroundImage: `url(${playButton})`,
             backgroundSize: 'cover'
           }}
           >
-            <span id="ManualRefreshLabel">Refresh</span>
+            <span id="ManualRefreshLabel">{refreshStatus}</span>
           </div>
         </>
     )

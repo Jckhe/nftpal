@@ -21,21 +21,28 @@ import { SupplyModule, SalesModule, VolumeModule, HoldersModule, HolderRatioModu
 
 //this component handles the modules and their orientation within the feed.
 //Essentially this component is the main parent of all the modules.
-export function ModuleHandler (props) {
+export function ModuleHandler ({...props}) {
+    const [manualRefresher, toggleRefresh] = useState(props.refresh);
     let nightMode = props.nightMode;
 
+    useEffect(() => {
+        console.log(props.refresh)
+        console.log("3" + manualRefresher)
+        toggleRefresh()
+        console.log("4" + manualRefresher)
+    }, [props.refresh])
 
     return (
         <>
         <div className="row">
-            <Module nightMode={nightMode} default={true} />
-            <Module nightMode={nightMode} />
-            <Module nightMode={nightMode} default2={true}/>
+            <Module refresh={props.refresh} nightMode={nightMode} default={true} />
+            <Module refresh={props.refresh} nightMode={nightMode} />
+            <Module refresh={props.refresh} nightMode={nightMode} default2={true}/>
         </div>
         <div className="row">
-            <Module nightMode={nightMode}  />
-            <Module nightMode={nightMode} default3={true} />
-            <Module nightMode={nightMode} />
+            <Module refresh={props.refresh}nightMode={nightMode}  />
+            <Module  refresh={props.refresh}nightMode={nightMode} default3={true} />
+            <Module refresh={props.refresh}nightMode={nightMode} />
         </div>
         </>
     )
@@ -80,7 +87,7 @@ function Module (props) {
     } else {
         return (
             <>
-            <LoadingScreenComp nightMode={nightMode} default3={defaultModule3} default2={defaultModule2} default={defaultModule} func={delHandler} slug={slug} />
+            <LoadingScreenComp refresh={props.refresh} nightMode={nightMode} default3={defaultModule3} default2={defaultModule2} default={defaultModule} func={delHandler} slug={slug} />
             </>
         )
     }
@@ -129,6 +136,9 @@ function LoadingScreenComp (props) {
     
 
     useEffect(() => {
+        if (props.refresh) {
+            setLoading(true)
+        }
         setTimeout(() => {
             setClass("loadingScreen2")
             setTimeout(() => {
@@ -144,7 +154,7 @@ function LoadingScreenComp (props) {
                 }, 200);
             }, 300);
         }, 50);
-    }, [])
+    }, [props.refresh])
 
     if (loading === true) {
         return (
@@ -157,7 +167,7 @@ function LoadingScreenComp (props) {
     } else {
         return (
             <>
-            <ModuleInit nightMode={nightMode} func={delHandler} slug={slug} />
+            <ModuleInit  nightMode={nightMode} func={delHandler} slug={slug} />
             </>
         )
     }
@@ -212,7 +222,7 @@ function ModuleSearch (props) {
                         <img className="exampleSlug" height="50px" width="300px" src={exampleSlug} alt="" />
                         <p><strong>What is a slug?</strong></p>
                         <p>The slug of an NFT project can be found at the end of their opensea collection's URL. </p>
-                        <p>{"For example, in the image above the slug for Moonbirds is"} <strong>'proof-moonbirds'</strong> {"(with the dash)"}</p>
+                        <p>{"For example, in the image above, the slug for Moonbirds is: "} <strong>'proof-moonbirds'</strong> {"(with the dash)"}</p>
                         <img onClick={()=> {delslugHelperClicker()}} src={delButton2} className="delButton3" alt="" height="18px" width="18px" />
                     </div>
                 </div>
@@ -312,7 +322,7 @@ export function ModuleInit (props) {
     const [refreshHelp, toggleRefHelp] = useState(false);
     //style
     const [cnamelength, setcname] = useState('cname');
-    const [refreshHelpDiv, toggleHelpDiv] = useState('slugHelperDivClose');
+   
     
 
     //props and etc
@@ -365,15 +375,22 @@ export function ModuleInit (props) {
             let contract = response.collection.primary_asset_contracts[0].address;
             let floorPrice = stats.floor_price;
             let collectionName = response.collection.primary_asset_contracts[0].name;
-            console.log(collectionName.length)
 
             const fee = () => {
                 const jsonFee = response.collection.primary_asset_contracts[0].seller_fee_basis_points / 100
                 const percentageFee = jsonFee.toString() + "%"
                 return percentageFee; 
             }
+
+            const floorPriceParser = (floorPrice) => {
+                if (floorPrice < 1) {
+                    return Number.parseFloat(floorPrice).toFixed(3)
+                } else {
+                    return Number.parseFloat(floorPrice).toFixed(2)
+                }
+            }
             
-            setFloorPrice(Number.parseFloat(floorPrice).toFixed(2))
+            setFloorPrice(floorPriceParser(floorPrice))
             setName(response.collection.primary_asset_contracts[0].name)
             setImage(response.collection.image_url)
             setSales(stats.total_sales)
@@ -394,9 +411,10 @@ export function ModuleInit (props) {
         })
         
     }
+
     
     useEffect(() => {
-        fetchCollection(url)
+        fetchCollection(url);
     }, [])
 
 
