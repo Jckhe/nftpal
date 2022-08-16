@@ -97,12 +97,12 @@
     height: 80%;
   }
 
-  .module:hover .swordImg  {
+  .swordImg:hover  {
     filter:drop-shadow(1px 5px 25px rgb(255, 208, 0));
     transition: filter 0.1s linear;
   }
 
-  .module:hover .swordFlipped {
+  .swordFlipped:hover {
     filter:drop-shadow(1px 5px 25px rgb(255, 208, 0));
     transition: filter 0.1s linear;
   }
@@ -768,6 +768,13 @@ img.exampleSlug {
   filter:drop-shadow(1px 5px 10px black) ;
   border: 2px solid black;
   border-radius: 10px;
+  transform: scale(1);
+  
+}
+
+img.exampleSlug:hover {
+  transform: scale(1.05);
+  transition: all 0.2s linear;
 }
 
 .slugHelperContent strong {
