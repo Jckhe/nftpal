@@ -22,27 +22,30 @@ import { SupplyModule, SalesModule, VolumeModule, HoldersModule, HolderRatioModu
 //this component handles the modules and their orientation within the feed.
 //Essentially this component is the main parent of all the modules.
 export function ModuleHandler ({...props}) {
+    //usestate props that will be toggled whenever these props are passed in. Refresh/Nightmode. If props aren't passed in, then 
+    //they won't trigger anything.
     const [manualRefresher, toggleRefresh] = useState(props.refresh);
     let nightMode = props.nightMode;
 
     useEffect(() => {
-        console.log(props.refresh)
-        console.log("3" + manualRefresher)
+        //Refreshes all modules
+        if (props.autoRefresh !== 0) {
+            toggleRefresh(true)
+        }
         toggleRefresh()
-        console.log("4" + manualRefresher)
-    }, [props.refresh])
+    }, [props.refresh, props.autoRefresh])
 
     return (
         <>
         <div className="row">
-            <Module refresh={props.refresh} nightMode={nightMode} default={true} />
-            <Module refresh={props.refresh} nightMode={nightMode} />
-            <Module refresh={props.refresh} nightMode={nightMode} default2={true}/>
+            <Module autoRefresh={props.autoRefresh} refresh={props.refresh} nightMode={nightMode} default={true} />
+            <Module autoRefresh={props.autoRefresh} refresh={props.refresh} nightMode={nightMode} />
+            <Module autoRefresh={props.autoRefresh} refresh={props.refresh} nightMode={nightMode} default2={true}/>
         </div>
         <div className="row">
-            <Module refresh={props.refresh}nightMode={nightMode}  />
-            <Module  refresh={props.refresh}nightMode={nightMode} default3={true} />
-            <Module refresh={props.refresh}nightMode={nightMode} />
+            <Module autoRefresh={props.autoRefresh} refresh={props.refresh}nightMode={nightMode}  />
+            <Module autoRefresh={props.autoRefresh} refresh={props.refresh}nightMode={nightMode} default3={true} />
+            <Module autoRefresh={props.autoRefresh} refresh={props.refresh}nightMode={nightMode} />
         </div>
         </>
     )
@@ -87,7 +90,7 @@ function Module (props) {
     } else {
         return (
             <>
-            <LoadingScreenComp refresh={props.refresh} nightMode={nightMode} default3={defaultModule3} default2={defaultModule2} default={defaultModule} func={delHandler} slug={slug} />
+            <LoadingScreenComp autoRefresh={props.autoRefresh} refresh={props.refresh} nightMode={nightMode} default3={defaultModule3} default2={defaultModule2} default={defaultModule} func={delHandler} slug={slug} />
             </>
         )
     }
@@ -96,9 +99,14 @@ function Module (props) {
 
 
 //this component handles the loading screen animation in between the search module and the initialized module.
+//the loading screen is purely for entertainment, stylistic purposes since it makes the module look more robust.
 function LoadingScreenComp (props) {
+    // animation/style handling here for the loading screen
     const [animationClass, setClass] = useState("loadingScreen1")
     const [loading, setLoading] = useState(true);
+    //refresh usestate
+    const [autoRefreshTimer, setRefreshTimer, timerRef] = useState();
+    //default Modules - these are only here to be passed into ModuleInit 
     let defaultModule = props.default;
     let defaultModule2 = props.default2;
     let defaultModule3 = props.default3;
@@ -107,6 +115,7 @@ function LoadingScreenComp (props) {
     let nightMode = props.nightMode;
 
 
+    //set the slug for default modules here
     if (defaultModule === true) {
         slug = "proof-moonbirds"
     }
@@ -136,9 +145,11 @@ function LoadingScreenComp (props) {
     
 
     useEffect(() => {
-        if (props.refresh) {
+        if (props.refresh || props.autoRefresh !== 0) {
+            console.log("hey")
             setLoading(true)
         }
+        
         setTimeout(() => {
             setClass("loadingScreen2")
             setTimeout(() => {
@@ -154,7 +165,11 @@ function LoadingScreenComp (props) {
                 }, 200);
             }, 300);
         }, 50);
-    }, [props.refresh])
+    }, [props.refresh, props.autoRefresh])
+
+
+    // this clause will always run first before the ModuleInit is rendered because the useState of loading is set to true by default
+    // -> Because this runs first, the useEffect will be activated afterwards to set Loading to false thus returning ModuleInit next.
 
     if (loading === true) {
         return (
@@ -205,7 +220,7 @@ function ModuleSearch (props) {
     }
 
 
-
+    //Helper Div Stuff
     const slugHelperClick = () => {
         toggleHelp(true)
     }
@@ -342,10 +357,13 @@ export function ModuleInit (props) {
         }
     }
 
+    //Manual Refresh Function
+
     const refHandler = () => {
         fetchCollection(url)
     }
 
+    //Helper Div Stuff
     const refHelpClick = () => {
         toggleRefHelp(true)
     }
@@ -366,6 +384,8 @@ export function ModuleInit (props) {
     }
 
 
+
+    //main function to fetch the data from the Opensea API, then sets the useState variables accordingly.
     const fetchCollection = (collectionUrl) => {
         const options = {method: 'GET'};
         fetch(collectionUrl, options)

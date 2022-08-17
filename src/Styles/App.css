@@ -69,7 +69,7 @@
   overflow: visible;
   padding: 0;
   top: -30px;
-  left: 12%;
+  left: 16%;
   filter:drop-shadow(1px 2px 5px black);
 }
 
@@ -77,10 +77,10 @@
   z-index: 7;
   user-select: none;
   position: relative;
-  left: 28.5%;
-  top: 38%;
+  left: 32.5%;
+  top: 40%;
   letter-spacing: 1px;
-  font-size: 1.7em;
+  font-size: 1.35em;
   font-family: 'watermelondays'
 }
 
@@ -103,3 +103,162 @@
 .buttonLabelDiv2:active {
   filter:drop-shadow(1px 2px 5px rgb(150, 148, 148));
 }
+
+.buttonLabelDiv3 {
+  position: absolute;
+  cursor: pointer;
+  height: 120px;
+  width: 200px;
+  overflow: visible;
+  padding: 0;
+  top: -30px;
+  left: 6.5%;
+  z-index: 10;
+  filter:drop-shadow(1px 2px 5px black);
+}
+
+.buttonLabelDiv3 span {
+  z-index: 7;
+  text-decoration: line-through;
+  user-select: none;
+  position: relative;
+  left: 26.5%;
+  top: 40%;
+  font-size: 1.3em;
+  font-family: 'watermelondays'
+}
+
+.buttonLabelDiv3:hover span {
+  -webkit-text-fill-color: rgb(0, 0, 0); /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 0.5px;
+  -webkit-text-stroke-color: rgba(255, 248, 248, .5);
+}
+
+.buttonLabelDiv3:active {
+  filter:drop-shadow(1px 2px 5px rgb(150, 148, 148));
+}
+
+div.autorefreshoptions {
+  position: relative;
+  cursor: pointer;
+  top: -40px;
+  left: 9.3%;
+  display: flex;
+  flex-direction: row;
+  border: 3px solid black;
+  border-radius: 15px;
+  width: 105px;
+  justify-content: space-evenly;
+  overflow: hidden;
+  padding: 0px 5px;
+  background-color: #d7d4ce;
+  height: 35px;
+  filter:drop-shadow(1px 2px 5px black);
+  z-index: 99;
+}
+
+div.autorefreshoptions:hover {
+  filter:drop-shadow(1px 1px 5px rgb(255, 208, 0))
+}
+
+.autorefreshoptions div {
+  border: 1px solid black;
+  cursor: pointer;
+  z-index: 10;
+}
+
+
+.autorefreshoptions span {
+  font-family: 'watermelondays';
+  font-size: 1.3rem;
+  text-decoration: line-through;
+}
+
+div.auto1 {
+  display: flex;
+}
+
+div.auto2 {
+  display: flex;
+}
+
+
+div.auto3 {
+  display: flex;
+}
+
+input#demo {
+  display: none;
+}
+
+input#demo2 {
+  display: none;
+}
+
+
+input#demo3 {
+  display: none;
+}
+
+#demo:checked ~ label  {
+  background-color: rgba(191,77,40,.4);
+  border: 2px solid rgba(191,77,40,.45);
+}
+
+#demo2:checked + label {
+  background-color: rgba(191,77,40,.4);
+  border: 2px solid rgba(191,77,40,.45);
+}
+
+#demo3:checked + label {
+  background-color: rgba(191,77,40,.4);
+  border: 2px solid rgba(191,77,40,.45);
+}
+
+.auto1 span {
+  white-space: nowrap;
+}
+
+
+.auto2 span {
+  white-space: nowrap;
+}
+
+
+
+.auto3 span {
+  white-space: nowrap;
+}
+
+label.a1label {
+  border: 1px solid rgb(255, 255, 255);
+  z-index: 88888;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  padding: 8px;
+}
+
+label.a2label {
+  border: 1px solid rgb(255, 255, 255);
+  z-index: 88888;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  padding: 8px;
+}
+
+label.a3label {
+  border: 1px solid rgb(255, 255, 255);
+  z-index: 88888;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  padding: 8px 6px 8px;
+}
+
+
+

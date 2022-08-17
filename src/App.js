@@ -6,13 +6,16 @@ import feedBG from './assets/feedbg4.jpg'
 import nightBG from './assets/nightmode.jpg'
 import Favico from './assets/favicon.png'
 import Favicon from "react-favicon";
-import { ManualRefreshButton, NightModeToggle } from './Menu';
+import { AutoRefreshButton, ManualRefreshButton, NightModeToggle } from './Menu';
 
 
 export  function App() {
 
-  const [nightMode, setNightMode] = useState(true)
-  const [manuelRefresh, toggleRefresh, manuelRefreshRef] = useState()
+  const [nightMode, setNightMode] = useState(true);
+  const [manuelRefresh, toggleRefresh] = useState();
+  const [autoRefresh, toggleAutoRefresh] = useState(false);
+  const [autoRefreshTimer, setRefreshTimer] = useState(0);
+
 
   //night mode stuff
   const nightModeFunc = (e) => {
@@ -50,12 +53,26 @@ export  function App() {
   }
 
   
+  
+  //props function
+  const autoRefreshHandle = () => {
+    toggleAutoRefresh(!autoRefresh)
+  }
+
+  
 
 
   useEffect(() => {
     document.title = 'NFTPal'
+    if (autoRefresh === true) {
+      setTimeout(() => {
+          setRefreshTimer(autoRefreshTimer + 1);
+        }, 60000);
+    } else {
+      setRefreshTimer(0)
+    }
     toggleRefresh();
-  }, [manuelRefresh])
+  }, [autoRefresh, autoRefreshTimer])
 
   return (
     <div className="body" style={nightModeHandler()}>
@@ -63,13 +80,14 @@ export  function App() {
         <div className="nbuttonContainer">
           <NightModeToggle func={nightModeFunc} />
           <ManualRefreshButton refresh={refreshClick} />
+          <AutoRefreshButton func={autoRefreshHandle} />
         </div>
       </div>
       
     
     <div className="feed" style={nightModeBG()}>
       <Favicon url={Favico}></Favicon>
-      <ModuleHandler refresh={manuelRefresh} nightMode={nightMode}  />
+      <ModuleHandler autoRefresh={autoRefreshTimer} refresh={manuelRefresh} nightMode={nightMode}  />
     </div>
     </div>
   );
