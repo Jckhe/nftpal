@@ -1,5 +1,5 @@
 import "./Styles/Menu.css";
-import React from "react";
+import React, { useEffect } from "react";
 import playButton from './assets/button.png'
 import useState from 'react-usestateref'
 
@@ -40,6 +40,7 @@ export const NightModeToggle = (props) => {
 
 export const ManualRefreshButton = (props) => {
     const [refreshStatus, toggleRefreshAnimation] = useState('Refresh All')
+    
 
     const refreshAnimation = () => {
         setTimeout(() => {
@@ -78,11 +79,16 @@ export const ManualRefreshButton = (props) => {
 
 export const AutoRefreshButton = (props) => {
     const [refreshStatus, toggleRefreshStatus] = useState(false);
-    const [clickedStatus, setClickedStatus] = useState("2")
+    const [clickedTimer, setTimer] = useState(300000)
+    const [defaultChecked, setDefaultChecked, defaultCheckRef] = useState(false) 
 
 
-    const clickedChecker = (num) => {
-        console.log(num)
+    const clickedChecker = () => {
+        if (defaultChecked === false) {
+            return false;
+        } else {
+            return true;
+        }
     }
     //style handling
     const autoRefreshStatusSpan = () => {
@@ -92,29 +98,33 @@ export const AutoRefreshButton = (props) => {
             return 'OFF'
         }
     }
-
-    //style
-    const int1styler = (e) => {
-        if (e.currentTarget.id === clickedStatus) {
-            return {
-                backgroundColor: "red"
-            }
-        }
+    //gets the input value for the timer
+    const handleChange = (e) => {
+        let inputTimer = e.target.value;
+        console.log(e.target.value);
+        setTimer(inputTimer);
+        props.intervalFunc(clickedTimer)
     }
+
+    useEffect(() => {
+
+    }, [])
+    
 
 
     return (
         <>
         <div className="autorefreshoptions">
-            <div className="auto1" id="1" onClick={() => {clickedChecker(1)}} ><input type="checkbox" id="demo"/>
+            <div className="auto1" id="1" ><input  onChange={handleChange} type="radio" name="uo" id="demo" value="180000"/>
 <label className="a1label" htmlFor="demo"><span>3m</span></label></div>
-            <div className="auto2" id="2" onClick={() => {clickedChecker(2)}} ><input type="checkbox" id="demo2"/>
+            <div className="auto2" id="2"  ><input  onChange={handleChange}type="radio" name="uo" checked={defaultChecked} id="demo2" value="300000"/>
 <label className="a2label" htmlFor="demo2"><span>5m</span></label></div>
-            <div className="auto3" id="3" onClick={() => {clickedChecker(3)}} ><input type="checkbox" id="demo3"/>
+            <div className="auto3" id="3"  ><input  onChange={handleChange}type="radio" name="uo" id="demo3" value="600000"/>
 <label className="a3label" htmlFor="demo3"><span>10m</span></label></div>
         </div>
         <div onClick={() => {
             toggleRefreshStatus(!refreshStatus)
+            setDefaultChecked(!defaultChecked)
             props.func();
         }} className="buttonLabelDiv3" style={{
             backgroundImage: `url(${playButton})`,
@@ -122,6 +132,57 @@ export const AutoRefreshButton = (props) => {
           }}
           >
             <span id="AutoRefreshLabel">Auto-Refresh: {autoRefreshStatusSpan()}</span>
+          </div>
+        </>
+    )
+}
+
+
+export function ETHPrice(props) {
+    //usestate for eth price
+    const [ethPrice, setETHPrice] = useState();
+    const [spanText, setSpanText] = useState("")
+
+
+
+    const fetchETHPrice = () => {
+        const options = {method: 'GET'};
+        setTimeout(() => {
+            setETHPrice("")
+           setSpanText("Updating")
+                setTimeout(() => {
+                    setSpanText("Updating.")
+                        setTimeout(() => {
+                           setSpanText("Updating..")
+                           setTimeout(() => {
+                            setSpanText("ETH:$ ")
+                            fetch("https://api.coinbase.com/v2/prices/ETH-USD/spot", options)
+                            .then(response => response.json())
+                            .then(response => {
+                            let eth = response.data.amount;
+                            console.log(response)
+                            setETHPrice(eth);
+                            })
+                           }, 777);
+            }, 555);
+           }, 555);
+        }, 100);
+      }
+      
+    useEffect(() => {
+        fetchETHPrice();
+    }, [])
+
+    
+    return (
+        <>
+        <div className="buttonLabelDiv4" style={{
+            backgroundImage: `url(${playButton})`,
+            backgroundSize: 'cover'
+          }}
+          onClick = {()=> {fetchETHPrice()}} 
+          >
+            <span id="ETHPriceUSD">{spanText}<strong>{ethPrice}</strong></span>
           </div>
         </>
     )

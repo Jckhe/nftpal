@@ -119,7 +119,6 @@
 
 .buttonLabelDiv3 span {
   z-index: 7;
-  text-decoration: line-through;
   user-select: none;
   position: relative;
   left: 26.5%;
@@ -165,13 +164,17 @@ div.autorefreshoptions:hover {
   border: 1px solid black;
   cursor: pointer;
   z-index: 10;
+  cursor: pointer;
+}
+
+.autorefreshoptions label {
+  cursor: pointer;
 }
 
 
 .autorefreshoptions span {
   font-family: 'watermelondays';
   font-size: 1.3rem;
-  text-decoration: line-through;
 }
 
 div.auto1 {
@@ -201,18 +204,18 @@ input#demo3 {
 }
 
 #demo:checked ~ label  {
-  background-color: rgba(191,77,40,.4);
-  border: 2px solid rgba(191,77,40,.45);
+  background-color: rgba(191,77,40,.9);
+  border: 2px solid rgba(191,77,40,.9);
 }
 
 #demo2:checked + label {
-  background-color: rgba(191,77,40,.4);
-  border: 2px solid rgba(191,77,40,.45);
+  background-color: rgba(191,77,40,.9);
+  border: 2px solid rgba(191,77,40,.9);
 }
 
 #demo3:checked + label {
-  background-color: rgba(191,77,40,.4);
-  border: 2px solid rgba(191,77,40,.45);
+  background-color: rgba(191,77,40,.9);
+  border: 2px solid rgba(191,77,40,.9);
 }
 
 .auto1 span {
@@ -260,5 +263,47 @@ label.a3label {
   padding: 8px 6px 8px;
 }
 
+.buttonLabelDiv4 {
+  position: absolute;
+  cursor: pointer!important;
+  height: 120px;
+  width: 200px;
+  overflow: visible;
+  padding: 0;
+  top: -30px;
+  right: 6.5%;
+  z-index: 10;
+  filter:drop-shadow(1px 2px 5px black);
+}
 
+.buttonLabelDiv4 span {
+  z-index: 7;
+  cursor: pointer!important;
+  user-select: none;
+  position: relative;
+  left: 30.5%;
+  top: 37.5%;
+  font-size: 1.5rem;
+  font-family: 'watermelondays'
+}
 
+.buttonLabelDiv4 strong {
+  
+  position: relative;
+  right: 4px;
+  z-index: 9999;
+  font-size: 1.55rem;
+  font-weight: normal;
+  color: rgb(122,179,23);
+  text-shadow:
+        0.08em 0 #000000,
+        0 0.1em #000000,
+        -0.07em 0 #000000,
+        0 -0.07em #000000;
+        filter:drop-shadow(1px 1px 2px rgb(0, 0, 0));
+}
+
+.buttonLabelDiv4 strong:hover {
+  font-size: 1.6rem;
+  transition: all 0.1s linear;
+}

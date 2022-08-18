@@ -6,7 +6,7 @@ import feedBG from './assets/feedbg4.jpg'
 import nightBG from './assets/nightmode.jpg'
 import Favico from './assets/favicon.png'
 import Favicon from "react-favicon";
-import { AutoRefreshButton, ManualRefreshButton, NightModeToggle } from './Menu';
+import { AutoRefreshButton, ETHPrice, ManualRefreshButton, NightModeToggle } from './Menu';
 
 
 export  function App() {
@@ -16,6 +16,12 @@ export  function App() {
   const [autoRefresh, toggleAutoRefresh] = useState(false);
   const [autoRefreshTimer, setRefreshTimer] = useState(0);
 
+  //props for auto-refresh intervals
+  const IntervalTimerFunc = (num) => {
+    setRefreshTimer(num)
+    console.log(num)
+    console.log(autoRefreshTimer)
+  }
 
   //night mode stuff
   const nightModeFunc = (e) => {
@@ -45,11 +51,22 @@ export  function App() {
       }
     }
   }
-  //
+  //ETH Price 
+
+  const fetchETHPrice = () => {
+    const options = {method: 'GET'};
+    fetch("https://api.etherscan.io/api?module=stats&action=ethprice&apikey=NU8841D6JKV8NY9HXD3F9DEVRD9Z6VG5W4", options)
+      .then(response => response.json())
+      .then(response => {
+        let eth = response.result.ethusd;
+        console.log(eth)
+      })
+  }
   
   //manual refresh stuff
   const refreshClick = () => {
     toggleRefresh(true)
+
   }
 
   
@@ -57,6 +74,7 @@ export  function App() {
   //props function
   const autoRefreshHandle = () => {
     toggleAutoRefresh(!autoRefresh)
+    setRefreshTimer(300000)
   }
 
   
@@ -67,7 +85,8 @@ export  function App() {
     if (autoRefresh === true) {
       setTimeout(() => {
           setRefreshTimer(autoRefreshTimer + 1);
-        }, 60000);
+          console.log("yo: " + autoRefreshTimer)
+        }, autoRefreshTimer);
     } else {
       setRefreshTimer(0)
     }
@@ -80,7 +99,8 @@ export  function App() {
         <div className="nbuttonContainer">
           <NightModeToggle func={nightModeFunc} />
           <ManualRefreshButton refresh={refreshClick} />
-          <AutoRefreshButton func={autoRefreshHandle} />
+          <AutoRefreshButton intervalFunc={IntervalTimerFunc} func={autoRefreshHandle} />
+          <ETHPrice />
         </div>
       </div>
       
