@@ -83,14 +83,11 @@
     filter:drop-shadow(1px 5px 10px black) ;
     align-items: center;
     flex-direction: column;
-   
-    cursor: pointer;
     box-shadow: inset 0 2px 5px 1px #807e7e;
   }
 
   .module:hover {
     filter:drop-shadow(1px 5px 10px rgba(199, 186, 2, .5));
-    transform:scale(1.01);
     transition: all 0.1s ease-in-out;
     z-index: 8888;
   }
@@ -103,6 +100,7 @@
     width: 100%;
     justify-content: space-between;
     height: 80%;
+    cursor: pointer;
   }
 
   .swordImg:hover  {
@@ -134,6 +132,8 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    cursor: pointer
+    ;
   }
 
 
@@ -146,12 +146,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    user-select: none;
     caret-color: darkslategrey!important;
   }
 
   .searchInputContainer input {
     width: 100%;
     position: relative;
+    user-select: none;
     height: 50px;
     text-align: center;
     background-color: transparent;
@@ -212,6 +214,7 @@
 
   .searchSubmitContainer:hover span {
     text-decoration: underline;
+    text-decoration-color: black;
   }
 
   .searchSubmitContainer:hover img {
@@ -247,16 +250,50 @@
     
    }
 
-  .moduleImg > img {
-    border: 1px solid black;
+
+  .ImageDiv {
+    height: 132px;
+    width: 132px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    
   }
+
+
+  .start-btn{
+    text-align: center;
+	  display: inline-block;
+	  margin:5px;
+    user-select: none;
+    letter-spacing: 1px;
+    font-size: 1.2rem;
+    font-family: 'watermelondays';
+    padding: 10px 10px 10px 10px ;
+    background-color: rgb(211, 211, 211);
+    text-shadow: -1px -1px rgb(255, 255, 255), 1px 1px white;
+    color: rgb(0, 0, 0);
+    -webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	-o-border-radius: 7px;
+	border-radius: 7px;
+  box-shadow: 0 .2em gray; 
+    cursor: pointer;
+    width: 100px;
+    position: relative;
+    border: 2px solid rgb(119, 117, 117);
+    top: 57px;
+}
+
+.start-btn:active {
+  box-shadow: 0 .0em gray;
+  top: 60px; 
+}
 
   .moduleImg {
     border: 1px solid black;
-    height: 120px;
     user-select: none!important;
-    width: 120px;
     padding: 5px;
+    cursor: pointer;
     margin-top: 15px;
     margin-bottom: 15px;
     background-color: grey;
@@ -292,6 +329,7 @@
     width: 100%;
     height: 100px;
     display: flex;
+    cursor: pointer;
     justify-content: center;
     align-items: center;
   }
@@ -299,12 +337,14 @@
   .scrollcontainer {
     user-select: none;
     position: absolute;
+    cursor: pointer;
   }
 
   .scroll {
     filter:drop-shadow(1px 5px 10px black) ;
     width: 375px;
     user-select: none;
+    cursor: pointer;
     height: 110px;
     transition: filter 0.2s ease-out;
   }
@@ -312,6 +352,7 @@
   .scrollcontainer2 {
     position: absolute;
     z-index: 1;
+    cursor: pointer;
     bottom: -25px;
   }
 
@@ -415,6 +456,8 @@
 
 .stats-info {
   font-family: 'candy_beansregular';
+  user-select: none;
+  cursor: pointer;
   font-size: 1.125rem;
   z-index: 200;
   -webkit-text-stroke: 1px;
@@ -510,7 +553,7 @@
 
  .stats-val {
   z-index: 100;
-
+  cursor: pointer;
   font-size: 1.3rem;
   font-family: 'candy_beansregular';
   letter-spacing: 2px;
@@ -524,6 +567,7 @@
   width: 210px;
   height: 90px;
   padding-top: 2px;
+  user-select: none;
   position: absolute;
   transition: height .2s linear;
   transition: width .1s linear;
@@ -532,6 +576,7 @@
  }
 
  .bigPlayButtonFalse {
+  user-select: none;
   width: 200px;
   height: 70px;
   padding-top: 2px;
@@ -545,6 +590,7 @@
  .playButtonHoverFalse {
   width: 120px;
   height: 70px;
+  user-select: none;
   cursor:pointer;
   padding-top: 2px;
   position: absolute;
@@ -557,6 +603,7 @@
   width: 150px;
   height: 90px;
   padding-top: 2px;
+  user-select: none;
   cursor:pointer;
   position: absolute;
   transition: height .2s linear;
@@ -571,6 +618,7 @@
   border-radius: 2px;
   position: absolute;
   top: -6px;
+  cursor: pointer;
   filter:drop-shadow(1px 2px 3px rgba(216, 211, 211,.3)) 
            drop-shadow(-1px -1px 0 rgba(228, 228, 228, .3));
  }
@@ -617,6 +665,7 @@
 .refreshButtonDiv {
   user-select: none!important;
   position: absolute;
+  cursor: pointer;
   right: 10%;
   top: 9%;
   filter:drop-shadow(1px 1px 2px rgb(0, 0, 0)) 
@@ -640,6 +689,7 @@
 .deleteButtonDiv {
   user-select: none!important;
   position: absolute;
+  cursor: pointer;
   left: 27.5px;
   top: 30px;
   filter:drop-shadow(1px 1px 5px rgb(0, 0, 0)) 
@@ -665,6 +715,7 @@
   position: absolute;
   right: 5%;
   top: 5%;
+  cursor: pointer;
 }
 
 .questionMarkDiv img {
@@ -684,7 +735,7 @@
   border: 3px solid black;
   border-radius: 10px;
   font-family: 'watermelondays';
-  
+  cursor: pointer;
   text-align: center;
   left: 50px;
   line-height: 20px;

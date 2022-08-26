@@ -26,73 +26,48 @@ export function ModuleHandler ({...props}) {
     const [manualRefresher, toggleRefresh] = useState(props.refresh);
     let nightMode = props.nightMode;
 
-
-    //we can make an object here that will store all the saved slugs/session
-    //this object will store the key (the order of the module) and their saved slug
-    let savedSlugs = {}
-
-
-    //function here will be passed down as a prop.
-    //this function will help save the key value pair into savedSlugs object IF saved
-    const saveSession = (data) => {
-        let toSave = data;
-        savedSlugs[data[0]] = data[1];
-        localStorage.setItem("savedSlugs", JSON.stringify(savedSlugs));
-    }
-
-    const savePersist = (data) => {
-        let toSave = data;
-        savedSlugs[data[0]] = data[1];
-        localStorage.setItem("savedSlugs", JSON.stringify(savedSlugs));
-    }
-
-    const delPersist = (data) => {
-        delete savedSlugs[data[0]];
-        localStorage.setItem("savedSlugs", JSON.stringify(savedSlugs));
-    }
-
     useEffect(() => {
+        //handles persist 
+        const sessionSlug = localStorage.getItem("slug")
         //Refreshes all modules
         if (props.autoRefresh !== 0) {
             toggleRefresh(true)
         }
         toggleRefresh()
-
-        //checks if saved sessions exist
-        
+        if (sessionSlug) {
+            console.log(sessionSlug)
+        }
     }, [props.refresh, props.autoRefresh])
-
-
-    if (localStorage.getItem("savedSlugs")) {
-        console.log(JSON.parse(localStorage.getItem("savedSlugs")))
-        savedSlugs = JSON.parse(localStorage.getItem("savedSlugs"))
-    }
 
     return (
         <>
         <div className="row">
-            <Module savePersist={saveSession} delPersist={delPersist} slugStore={savedSlugs} mKey={1} saveFunc={saveSession} autoRefresh={props.autoRefresh} refresh={props.refresh} nightMode={nightMode} slug={"proof-moonbirds"} />
-            <Module savePersist={saveSession} delPersist={delPersist} slugStore={savedSlugs} mKey={2} saveFunc={saveSession} autoRefresh={props.autoRefresh} refresh={props.refresh} nightMode={nightMode} />
-            <Module savePersist={saveSession} delPersist={delPersist} slugStore={savedSlugs} mKey={3} saveFunc={saveSession} autoRefresh={props.autoRefresh} refresh={props.refresh} nightMode={nightMode} slug={"boredapeyachtclub"}/>
+            <Module autoRefresh={props.autoRefresh} refresh={props.refresh} nightMode={nightMode} default={true} />
+            <Module autoRefresh={props.autoRefresh} refresh={props.refresh} nightMode={nightMode} />
+            <Module autoRefresh={props.autoRefresh} refresh={props.refresh} nightMode={nightMode} default2={true}/>
         </div>
         <div className="row">
-            <Module savePersist={saveSession} delPersist={delPersist} slugStore={savedSlugs} mKey={4} saveFunc={saveSession} autoRefresh={props.autoRefresh} refresh={props.refresh}nightMode={nightMode}  />
-            <Module savePersist={saveSession} delPersist={delPersist} slugStore={savedSlugs} mKey={5} saveFunc={saveSession} autoRefresh={props.autoRefresh} refresh={props.refresh}nightMode={nightMode} />
-            <Module savePersist={saveSession} delPersist={delPersist} slugStore={savedSlugs} mKey={6} saveFunc={saveSession} autoRefresh={props.autoRefresh} refresh={props.refresh}nightMode={nightMode} />
+            <Module autoRefresh={props.autoRefresh} refresh={props.refresh}nightMode={nightMode}  />
+            <Module autoRefresh={props.autoRefresh} refresh={props.refresh}nightMode={nightMode} default3={true} />
+            <Module autoRefresh={props.autoRefresh} refresh={props.refresh}nightMode={nightMode} />
         </div>
         </>
     )
 }
 
 
-//THIS DETERMINES WHETHER THE MODULE IS INIT OR NOT
+//this Module handles the process between the search and the intialization (passing the slug over)
 function Module (props) {
     const [init, setInit] = useState(false);
     const [slug, setSlug] = useState('');
-    const [slugStore, setSlugStore] = useState(props.slugStore)
+    const [defaultModule, setDefault] = useState(props.default)
+    const [savedSession, toggleSaved] = useState();
+    let defaultModule2 = props.default2;
+    let defaultModule3 = props.default3;
+    
+    
     let nightMode = props.nightMode;
-    let key = props.mKey;
-    let savedSlug = [key, slug]
+
 
     const initHandler = (e) => {
         setSlug(e);
@@ -100,41 +75,36 @@ function Module (props) {
     }
 
     const delHandler = (e) => {
-        props.delPersist(savedSlug)
         setSlug('')
+        setDefault()
         setInit(false)
     }
 
-    
-
-    
+    const savedChecker = (data) => {
+        toggleSaved(true)
+        setSlug(data)
+    }
 
     useEffect(() => {
-        if (props.slug) {
-            setSlug(props.slug)
+        if (savedSession) {
+            setInit(true)
+        }
+        if (defaultModule === true || defaultModule2 === true || defaultModule3 === true) {
             setInit(true)
         }
         
-    }, [])
+    }, [savedSession])
 
-    useEffect(() => {
-        if (key in slugStore) {
-            setSlug(slugStore[key])
-            setInit(true)
-        }
-    }, [])
-
-    
     if (init === false) {
         return (
             <>
-            <ModuleSearch savePersist={props.savePersist} mKey={props.mKey} nightMode={nightMode} func={initHandler} />
+            <ModuleSearch nightMode={nightMode} func={initHandler} />
             </>
         )
     } else {
         return (
             <>
-            <ModuleInit saveFunc={props.saveFunc} mKey={props.mKey} autoRefresh={props.autoRefresh} refresh={props.refresh} nightMode={nightMode} func={delHandler} slug={slug}/>
+            <LoadingScreenComp saved={savedChecker} autoRefresh={props.autoRefresh} refresh={props.refresh} nightMode={nightMode} default3={defaultModule3} default2={defaultModule2} default={defaultModule} func={delHandler} slug={slug} />
             </>
         )
     }
@@ -142,7 +112,94 @@ function Module (props) {
 
 
 
+//this component handles the loading screen animation in between the search module and the initialized module.
+//the loading screen is purely for entertainment, stylistic purposes since it makes the module look more robust.
+function LoadingScreenComp (props) {
+    // animation/style handling here for the loading screen
+    const [animationClass, setClass] = useState("loadingScreen1")
+    const [loading, setLoading] = useState(true);
+    //default Modules - these are only here to be passed into ModuleInit 
+    let defaultModule = props.default;
+    let defaultModule2 = props.default2;
+    let defaultModule3 = props.default3;
+    let slug = props.slug;
+    let delHandler = props.func;
+    let nightMode = props.nightMode;
+    let saved = props.saved;
 
+
+    //set the slug for default modules here
+    if (defaultModule === true) {
+        slug = "proof-moonbirds"
+    }
+
+    if (defaultModule2 === true) {
+        slug = "boredapeyachtclub"
+    }
+
+    if (defaultModule3 === true) {
+        slug = "azuki"
+    }
+
+
+
+    //nightMode style handler
+    const nightModeHandler = () => {
+        if (nightMode === true) {
+            return {
+                backgroundColor: '#6B8074'
+            }
+        } else {
+            return {
+                backgroundColor: '#A8DBA8'
+            }
+        }
+    }
+    
+
+    useEffect(() => {
+        if (props.refresh || props.autoRefresh !== 0) {
+            console.log("hey")
+            setLoading(true)
+        }
+        
+        setTimeout(() => {
+            setClass("loadingScreen2")
+            setTimeout(() => {
+                setClass("loadingScreen3")
+                setTimeout(() => {
+                    setClass("loadingScreen2")
+                    setTimeout(() => {
+                        setClass("loadingScreen3")
+                        setTimeout(() => {
+                            setLoading(false)
+                        }, 100);
+                    }, 200);
+                }, 200);
+            }, 300);
+        }, 50);
+    }, [props.refresh, props.autoRefresh])
+
+
+    // this clause will always run first before the ModuleInit is rendered because the useState of loading is set to true by default
+    // -> Because this runs first, the useEffect will be activated afterwards to set Loading to false thus returning ModuleInit next.
+
+    if (loading === true) {
+        return (
+            <div className='module' style={nightModeHandler()}>
+                <div className="loadingScreenDiv">
+                    <img src={loadingScreen} alt="loading screen"  className={animationClass} />
+                </div>
+            </div>
+        )
+    } else {
+        return (
+            <>
+            <ModuleInit saved={saved} nightMode={nightMode} func={delHandler} slug={slug} />
+            </>
+        )
+    }
+}
 
 
 
@@ -154,8 +211,6 @@ function ModuleSearch (props) {
     const [swordAnimation, setSwordAnimation] = useState(0);
     const [swordAnimation2, setSwordAnimation2] = useState(0);
     const [slugHelpStatus, toggleHelp] = useState(false);
-    let key = props.mKey;
-    let savedSlug = [key, slugInput];
 
 
     let nightMode = props.nightMode;
@@ -258,8 +313,7 @@ function ModuleSearch (props) {
                         <span>SUBMIT</span>
                     </div>
                     <div className="searchButtonDiv">
-                        <input onClick={() => {props.func(slugInput);
-                        props.savePersist(savedSlug)}} className="searchSubmit" type="submit" value=" " />
+                        <input onClick={() => {props.func(slugInput)}} className="searchSubmit" type="submit" value=" " />
                     </div>
                     
                     </div>
@@ -299,7 +353,7 @@ export function ModuleInit (props) {
     const [cnamelength, setcname] = useState('cname');
     //important usestate here: basically will check if this module has been initialized 
     const [init, toggleInit] = useState(false);
-    let saveslug;
+    
 
     //props and etc
     let nightMode = props.nightMode;
@@ -348,29 +402,24 @@ export function ModuleInit (props) {
 
     //save stuff
 
-    //this is the function for the onClick event of the button (to save)
-    function saveSession () {
-        saveslug = [props.mKey, slug]
-        props.saveFunc(saveslug)
-        setSavePrompt()
+    const handleSaver = () => {
+        localStorage.setItem("slug", slug)
+        setSavePrompt();
     }
-
+    const SavePrompt = (
+        <div className="ImageDiv">
+        <span onClick={handleSaver} className='start-btn'>Save ?</span>
+        </div>
+    )
 
     
-    //this handles clicking on the collection image -> which then prompts the savePrompt button
+
     const handleSaveClick = () => {
         setTimeout(() => {
             setSavePrompt(true)
         }, 1000);
     }
 
-
-    //this the button that pops up to prompt a save session
-    const SavePrompt = (
-        <div className="ImageDiv">
-        <span onClick={saveSession} className='start-btn'>Save ?</span>
-        </div>
-    )
 
 
     //main function to fetch the data from the Opensea API, then sets the useState variables accordingly.
@@ -426,9 +475,12 @@ export function ModuleInit (props) {
 
     
     useEffect(() => {
-
+        const session = localStorage.getItem("slug")
+        if (session) {
+            props.saved(slug)
+        }
         fetchCollection(url);
-    }, [])
+    }, [SavePrompt])
 
 
     return (
@@ -471,57 +523,4 @@ export function ModuleInit (props) {
         </div>
         </div>
     )
-}
-
-
-
-
-
-
-
-
-
-
-
-//this component handles the loading screen animation in between the search module and the initialized module.
-//the loading screen is purely for entertainment, stylistic purposes since it makes the module look more robust.
-function LoadingScreenComp (props) {
-    // animation/style handling here for the loading screen
-    const [animationClass, setClass] = useState("loadingScreen1")
-    const [loading, setLoading] = useState(true);
-
-
-    useEffect(() => {
-        if (props.refresh || props.autoRefresh !== 0) {
-            setLoading(true)
-        }
-        
-        setTimeout(() => {
-            setClass("loadingScreen2")
-            setTimeout(() => {
-                setClass("loadingScreen3")
-                setTimeout(() => {
-                    setClass("loadingScreen2")
-                    setTimeout(() => {
-                        setClass("loadingScreen3")
-                        setTimeout(() => {
-                            setLoading(false)
-                        }, 100);
-                    }, 200);
-                }, 200);
-            }, 300);
-        }, 50);
-    }, [])
-
-
-    // this clause will always run first before the ModuleInit is rendered because the useState of loading is set to true by default
-    // -> Because this runs first, the useEffect will be activated afterwards to set Loading to false thus returning ModuleInit next.
-
-     return (
-        <div className='module'>
-            <div className="loadingScreenDiv">
-                <img src={loadingScreen} alt="loading screen"  className={animationClass} />
-                </div>
-            </div>
-        )
 }

@@ -82,6 +82,9 @@ export  function App() {
 
   useEffect(() => {
     document.title = 'NFTPal'
+    let sessionID = localStorage.getItem('session_id');
+    console.log(sessionID)
+    console.log("hey")
     if (autoRefresh === true) {
       setTimeout(() => {
           setRefreshTimer(autoRefreshTimer + 1);
